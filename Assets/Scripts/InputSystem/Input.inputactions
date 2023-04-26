@@ -1,0 +1,60 @@
+{
+    "name": "Input",
+    "maps": [
+        {
+            "name": "Blocks",
+            "id": "a0ba25c0-e34a-4c80-bac7-914982feed84",
+            "actions": [
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "561a374d-dd29-429a-bed1-f791dfe9710f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left",
+                    "type": "Button",
+                    "id": "d693da7f-9a0d-4651-94da-8895947dd4f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f9f4654c-907e-463b-9acc-2a980016462c",
+                    "path": "<Keyboard>/d",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2daf0ec1-e9f3-410b-b7e2-c1cb42b8d155",
+                    "path": "<Keyboard>/a",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Blocks",
+            "bindingGroup": "Blocks",
+            "devices": []
+        }
+    ]
+}
