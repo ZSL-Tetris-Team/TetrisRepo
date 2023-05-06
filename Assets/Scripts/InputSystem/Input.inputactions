@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SoftDrop",
+                    "name": "SoftDropHold",
                     "type": "Value",
                     "id": "dcf89304-8db1-48f9-bfc1-d5a5aedfdbc7",
                     "expectedControlType": "Button",
@@ -72,6 +72,15 @@
                     "name": "SoftDropUp",
                     "type": "Button",
                     "id": "1cdd261b-e78e-41a1-a485-9967b03304e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SoftDropDown",
+                    "type": "Button",
+                    "id": "9c09aabc-157e-4e3c-9c52-c804b32a3f60",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -130,7 +139,7 @@
                     "interactions": "Hold(duration=1.401298E-45)",
                     "processors": "",
                     "groups": "Blocks",
-                    "action": "SoftDrop",
+                    "action": "SoftDropHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -164,6 +173,17 @@
                     "processors": "",
                     "groups": "Blocks",
                     "action": "SoftDropUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5681efad-cb50-4c7e-87b7-6e17f5af0b17",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "SoftDropDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

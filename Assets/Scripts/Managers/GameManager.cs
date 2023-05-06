@@ -14,12 +14,12 @@ public class GameManager : Singelton<GameManager>
     private States state;
     public PrefabManager PrefabManager { get; private set; }
     public ConstSettingsManager ConstSettingsManager { get; private set; }
-    public int FloorMask { get; private set; } = 1 << 6;
-    public int WallMask { get; private set; } = 1 << 7;
+    public int FloorMask { get; private set; }
+    public int WallMask { get; private set; }
     private void Awake()
     {
-        FloorMask = LayerMask.NameToLayer("FloorMask");
-        WallMask = LayerMask.NameToLayer("WallMask");
+        FloorMask = LayerMask.GetMask("FloorLayer", "CubeLayer");
+        WallMask = LayerMask.GetMask("WallLayer", "CubeLayer");
         PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
         ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
     }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1672138396497011310}
   - component: {fileID: 1672138396497011311}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: IBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753563, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
@@ -215,7 +215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753563, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
@@ -301,7 +301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753563, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
@@ -387,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753563, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}

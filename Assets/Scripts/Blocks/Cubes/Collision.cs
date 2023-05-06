@@ -80,7 +80,7 @@ public class Collision : MonoBehaviour
             if (dotRight != 1 && dotLeft != 1) continue;
 
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 0.9f, 1 << 7))
+            if (Physics.Raycast(ray, out hit, 0.9f, GameManager.Instance.WallMask))
             {
                 Debug.Log("Wall true");
                 IsWallRight = dotRight == 1;
@@ -96,7 +96,7 @@ public class Collision : MonoBehaviour
             if (Vector3.Dot(Vector3.down, ray.direction) != 1) continue;
 
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 0.9f, 1 << 6))
+            if (Physics.Raycast(ray, out hit, 0.9f, GameManager.Instance.FloorMask))
             {
                 Debug.Log("Floor true");
                 return true;

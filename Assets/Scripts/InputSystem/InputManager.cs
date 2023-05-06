@@ -33,8 +33,8 @@ public class InputManager : Singelton<InputManager>
 	public bool GetLeft() => input.Blocks.Left.triggered;
 	public bool GetRotateLeft() => input.Blocks.RotateLeft.triggered;
 	public bool GetRotateRight() => input.Blocks.RotateRight.triggered;
-	public bool GetSoftDrop() => input.Blocks.SoftDrop.triggered;
-	public bool GetSoftDropHold() => input.Blocks.SoftDrop.ReadValue<float>() > 0;
+	public bool GetSoftDropDown() => input.Blocks.SoftDropDown.triggered;
+	public bool GetSoftDropHold() => input.Blocks.SoftDropHold.ReadValue<float>() > 0;
 	public bool GetSoftDropUp() => input.Blocks.SoftDropUp.triggered;
 	public bool GetHardDrop() => input.Blocks.HardDrop.triggered;
 	public bool GetHoldPiece() => input.Blocks.HoldPiece.triggered;

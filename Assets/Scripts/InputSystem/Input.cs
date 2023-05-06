@@ -64,7 +64,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SoftDrop"",
+                    ""name"": ""SoftDropHold"",
                     ""type"": ""Value"",
                     ""id"": ""dcf89304-8db1-48f9-bfc1-d5a5aedfdbc7"",
                     ""expectedControlType"": ""Button"",
@@ -94,6 +94,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""name"": ""SoftDropUp"",
                     ""type"": ""Button"",
                     ""id"": ""1cdd261b-e78e-41a1-a485-9967b03304e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SoftDropDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""9c09aabc-157e-4e3c-9c52-c804b32a3f60"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -152,7 +161,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""interactions"": ""Hold(duration=1.401298E-45)"",
                     ""processors"": """",
                     ""groups"": ""Blocks"",
-                    ""action"": ""SoftDrop"",
+                    ""action"": ""SoftDropHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -188,6 +197,17 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""action"": ""SoftDropUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5681efad-cb50-4c7e-87b7-6e17f5af0b17"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Blocks"",
+                    ""action"": ""SoftDropDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,10 +226,11 @@ public partial class @Input : IInputActionCollection2, IDisposable
         m_Blocks_Left = m_Blocks.FindAction("Left", throwIfNotFound: true);
         m_Blocks_RotateLeft = m_Blocks.FindAction("RotateLeft", throwIfNotFound: true);
         m_Blocks_RotateRight = m_Blocks.FindAction("RotateRight", throwIfNotFound: true);
-        m_Blocks_SoftDrop = m_Blocks.FindAction("SoftDrop", throwIfNotFound: true);
+        m_Blocks_SoftDropHold = m_Blocks.FindAction("SoftDropHold", throwIfNotFound: true);
         m_Blocks_HardDrop = m_Blocks.FindAction("HardDrop", throwIfNotFound: true);
         m_Blocks_HoldPiece = m_Blocks.FindAction("HoldPiece", throwIfNotFound: true);
         m_Blocks_SoftDropUp = m_Blocks.FindAction("SoftDropUp", throwIfNotFound: true);
+        m_Blocks_SoftDropDown = m_Blocks.FindAction("SoftDropDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,10 +294,11 @@ public partial class @Input : IInputActionCollection2, IDisposable
     private readonly InputAction m_Blocks_Left;
     private readonly InputAction m_Blocks_RotateLeft;
     private readonly InputAction m_Blocks_RotateRight;
-    private readonly InputAction m_Blocks_SoftDrop;
+    private readonly InputAction m_Blocks_SoftDropHold;
     private readonly InputAction m_Blocks_HardDrop;
     private readonly InputAction m_Blocks_HoldPiece;
     private readonly InputAction m_Blocks_SoftDropUp;
+    private readonly InputAction m_Blocks_SoftDropDown;
     public struct BlocksActions
     {
         private @Input m_Wrapper;
@@ -285,10 +307,11 @@ public partial class @Input : IInputActionCollection2, IDisposable
         public InputAction @Left => m_Wrapper.m_Blocks_Left;
         public InputAction @RotateLeft => m_Wrapper.m_Blocks_RotateLeft;
         public InputAction @RotateRight => m_Wrapper.m_Blocks_RotateRight;
-        public InputAction @SoftDrop => m_Wrapper.m_Blocks_SoftDrop;
+        public InputAction @SoftDropHold => m_Wrapper.m_Blocks_SoftDropHold;
         public InputAction @HardDrop => m_Wrapper.m_Blocks_HardDrop;
         public InputAction @HoldPiece => m_Wrapper.m_Blocks_HoldPiece;
         public InputAction @SoftDropUp => m_Wrapper.m_Blocks_SoftDropUp;
+        public InputAction @SoftDropDown => m_Wrapper.m_Blocks_SoftDropDown;
         public InputActionMap Get() { return m_Wrapper.m_Blocks; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -310,9 +333,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @RotateRight.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
                 @RotateRight.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
                 @RotateRight.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
-                @SoftDrop.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDrop;
-                @SoftDrop.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDrop;
-                @SoftDrop.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDrop;
+                @SoftDropHold.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
+                @SoftDropHold.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
+                @SoftDropHold.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
                 @HardDrop.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
                 @HardDrop.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
                 @HardDrop.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
@@ -322,6 +345,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @SoftDropUp.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
                 @SoftDropUp.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
                 @SoftDropUp.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
+                @SoftDropDown.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
+                @SoftDropDown.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
+                @SoftDropDown.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
             }
             m_Wrapper.m_BlocksActionsCallbackInterface = instance;
             if (instance != null)
@@ -338,9 +364,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @RotateRight.started += instance.OnRotateRight;
                 @RotateRight.performed += instance.OnRotateRight;
                 @RotateRight.canceled += instance.OnRotateRight;
-                @SoftDrop.started += instance.OnSoftDrop;
-                @SoftDrop.performed += instance.OnSoftDrop;
-                @SoftDrop.canceled += instance.OnSoftDrop;
+                @SoftDropHold.started += instance.OnSoftDropHold;
+                @SoftDropHold.performed += instance.OnSoftDropHold;
+                @SoftDropHold.canceled += instance.OnSoftDropHold;
                 @HardDrop.started += instance.OnHardDrop;
                 @HardDrop.performed += instance.OnHardDrop;
                 @HardDrop.canceled += instance.OnHardDrop;
@@ -350,6 +376,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @SoftDropUp.started += instance.OnSoftDropUp;
                 @SoftDropUp.performed += instance.OnSoftDropUp;
                 @SoftDropUp.canceled += instance.OnSoftDropUp;
+                @SoftDropDown.started += instance.OnSoftDropDown;
+                @SoftDropDown.performed += instance.OnSoftDropDown;
+                @SoftDropDown.canceled += instance.OnSoftDropDown;
             }
         }
     }
@@ -369,9 +398,10 @@ public partial class @Input : IInputActionCollection2, IDisposable
         void OnLeft(InputAction.CallbackContext context);
         void OnRotateLeft(InputAction.CallbackContext context);
         void OnRotateRight(InputAction.CallbackContext context);
-        void OnSoftDrop(InputAction.CallbackContext context);
+        void OnSoftDropHold(InputAction.CallbackContext context);
         void OnHardDrop(InputAction.CallbackContext context);
         void OnHoldPiece(InputAction.CallbackContext context);
         void OnSoftDropUp(InputAction.CallbackContext context);
+        void OnSoftDropDown(InputAction.CallbackContext context);
     }
 }

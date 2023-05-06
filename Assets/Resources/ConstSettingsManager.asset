@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ConstSettingsManager
   m_EditorClassIdentifier: 
   _fallTime: 1
-  _softDropFallTime: 0.5
+  _softDropFallTime: 0.2

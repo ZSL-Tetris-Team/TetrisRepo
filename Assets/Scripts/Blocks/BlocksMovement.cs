@@ -55,17 +55,13 @@ public class BlocksMovement : MonoBehaviour
 	}
 	private void HandleSoftDrop()
 	{
-		if (inputManager.GetSoftDrop())
+		if (inputManager.GetSoftDropDown())
 		{
-			timer.ResetTimer();
 			timer.TimeLeft = 0;
-			timer.StartTimer(VerticalMovement);
 		}
 		if (inputManager.GetSoftDropUp())
 		{
-			timer.ResetTimer();
-			timer.TimeLeft = 1;
-			timer.StartTimer(HorizontalMovement);
+			timer.TimeLeft = csm.FallTime * 0.5f;
 		}
 	}
 	private void VerticalMovement()
