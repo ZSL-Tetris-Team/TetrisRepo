@@ -5,37 +5,38 @@ using UnityEngine.InputSystem;
 
 public class InputManager : Singelton<InputManager>
 {
-	//ta klasa dziedziczy po Singeltonie z generycznoœci¹
-	//singelton to klasa która mo¿e mieæ tylko jedn¹ instancjê
-	//urzywam tego teraz zamiast statycznej klasy po to aby mieæ dostêp do klasy MonoBehaviour (metoda Awake, OnEnable, OnDisable)
-	//singelton dziedziczy do monobehaviour czyli musi mieæ jak¹æ instancjê aby dzia³aæ, i tworzy tylko jedn¹
+	//Ta klasa dziedziczy po Singeltonie z generycznoœci¹
+	//Singelton to klasa która mo¿e mieæ tylko jedn¹ instancjê
+	//U¿ywam tego teraz zamiast statycznej klasy po to aby mieæ dostêp do klasy MonoBehaviour (metoda Awake, OnEnable, OnDisable)
+	//Singelton dziedziczy do monobehaviour czyli musi mieæ jak¹æ instancjê aby dzia³aæ, i tworzy tylko jedn¹
 	//w efekcie dostajê klase z przyrównywalnym dostêpem co klasa statyczna i jednoczeœnie mam dostêp do MonoBehaviour
-	private Input _input;
-	//metoda Awake jest uruchamiana podczas tworzenia obiektu jej klasy (instancji)
+	private Input input;
+	//Metoda Awake jest uruchamiana podczas tworzenia obiektu jej klasy (instancji)
 	//jest ona pierwsz¹ wywo³ywan¹ metod¹ przed OnEnable i Start
 	private void Awake()
 	{
-		//tworzê obiekt klasy Input klasy automatycznie wygenerowanej przes Unity z InputActions s³u¿¹cego do customizacji inputu
-		_input = new();
+		//Tworzê obiekt klasy Input klasy automatycznie wygenerowanej przes Unity z InputActions s³u¿¹cego do customizacji inputu
+		input = new();
 	}
 	private void OnEnable()
 	{
-		//aktywójê obiekt
-		_input.Enable();
+		//Aktywujê obiekt
+		input.Enable();
 	}
 	private void OnDisable()
 	{
-		_input.Disable();
+		input.Disable();
 	}
-	//tutaj s¹ metody które umo¿liwiaj¹ mi dostêp do wartoœci poszczególnych inputów
-	//tego ¿eczywiœcie bêdê u¿ywaæ z zewn¹trz klasy
-	public bool GetRight()
-	{
-		return _input.Blocks.Right.triggered;
-	}
-	public bool GetLeft() 
-	{
-		return _input.Blocks.Left.triggered;
-	}
+	//Tutaj s¹ metody które umo¿liwiaj¹ mi dostêp do wartoœci poszczególnych inputów
+	//Tego ¿eczywiœcie bêdê u¿ywaæ z zewn¹trz klasy
+	public bool GetRight() => input.Blocks.Right.triggered;
+	public bool GetLeft() => input.Blocks.Left.triggered;
+	public bool GetRotateLeft() => input.Blocks.RotateLeft.triggered;
+	public bool GetRotateRight() => input.Blocks.RotateRight.triggered;
+	public bool GetSoftDrop() => input.Blocks.SoftDrop.triggered;
+	public bool GetSoftDropHold() => input.Blocks.SoftDrop.ReadValue<float>() > 0;
+	public bool GetSoftDropUp() => input.Blocks.SoftDropUp.triggered;
+	public bool GetHardDrop() => input.Blocks.HardDrop.triggered;
+	public bool GetHoldPiece() => input.Blocks.HoldPiece.triggered;
 }
 

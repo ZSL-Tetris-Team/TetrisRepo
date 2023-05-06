@@ -6,8 +6,8 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     //Moje statyczne property - czyli zarówno gettery i settery w jednym
-    //zwraca one za ka¿dym razem now¹ instancje Timer
-    //wygl¹da to tak dziwnie bo Timer dziedziczy po MonoBehaviour, czyli jest komponentem, czyli musi byæ przypisany do obiektu GameObject
+    //Zwraca one za ka¿dym razem now¹ instancje Timer
+    //Wygl¹da to tak dziwnie bo Timer dziedziczy po MonoBehaviour, czyli jest komponentem, czyli musi byæ przypisany do obiektu GameObject
     //a do czego potrzebujê MoboBahavoiur? Do metody Update która co klatkê bêdzie wykonywa³a odliczanie
     public static Timer NewInstance
     {
@@ -15,9 +15,9 @@ public class Timer : MonoBehaviour
         {
             GameObject obj = new();
             obj.name = typeof(Timer).Name;
-            //dziêki temu obiekt jest nie widzoczny i nie bêdzie zapisany czy coœ
+            //Dziêki temu obiekt jest nie widzoczny i nie bêdzie zapisany czy coœ
             obj.hideFlags = HideFlags.HideAndDontSave;
-            //dodajê do GameObject komponent Timer (instancjê) i jednoczeœnie j¹ zwracam
+            //Dodajê do GameObject komponent Timer (instancjê) i jednoczeœnie j¹ zwracam
             return obj.AddComponent<Timer>();
         }
     }
@@ -25,45 +25,59 @@ public class Timer : MonoBehaviour
     private bool isActive = false;
 	private float _timeLeft;
 	private int _timeLeftInt;
-    //to jest wbudowany delegat Action
-    //delegaty s¹ takim wskaŸnikiem do funkcji
-    //jest on potrzebny aby wywo³aæ funkcjê podan¹ w argumencie metody Start
+    //To jest wbudowany delegat Action
+    //Delegaty s¹ takim wskaŸnikiem do funkcji
+    //s¹ one mi potrzebne aby wywo³aæ funkcjê podan¹ w argumencie metody Start
 	private Action functionToCall;
-    //taki fikuœne property (gettery i settery)
+    //Takie fikuœne property (gettery i settery)
 	public float TimeLeft 
     {
-        get { return _timeLeft; }
+        get => _timeLeft;
         set { 
             _timeLeft = value; 
             _timeLeftInt = Mathf.FloorToInt(_timeLeft);
         }
     }
-    //property bez settera
-    public int TimeLeftInt { get { return _timeLeftInt; } }
+    //Property bez settera
+    public int TimeLeftInt 
+    { 
+        get => _timeLeftInt;
+        private set => _timeLeftInt = value;
+    }
 	private void Update()
 	{
-        //sprawdzam czy timer jest atywny
+        //Sprawdzam czy timer jest atywny
         if (!isActive) return;
-        //doejmujê wartoœc deltaTime od pozosta³ego czasu
-        //deltaTime to czas który up³yn¹³ miêczy poprzedni¹ a t¹ klatk¹
+        //Odejmujê wartoœc deltaTime od pozosta³ego czasu
+        //DeltaTime to czas który up³yn¹³ miêczy poprzedni¹ a t¹ klatk¹
 		TimeLeft -= Time.deltaTime;
         if(TimeLeft < 0)
         {
             StopTimer();
-            //wywo³ujê metodê do wywo³ania przez delegat functionToCall
+            //Wywo³ujê metodê do wywo³ania przez delegat functionToCall
             functionToCall();
         }
 	}
-	public void StartTimer(Action functionToCall)
+    public void StartTimer()
+    {
+        isActive = true;
+    }
+    public void StartTimer(Action functionToCall)
 	{
-        //this jest wskaŸnikiem, ale ¿e w c# nie ma defakto pojêcia wskaŸnik to i tak urzywamy kropki
-        //zreszt¹ do statycznych rzeczy te¿ kropeczka
+        //This jest wskaŸnikiem, ale ¿e w c# nie ma defakto pojêcia wskaŸnik to i tak urzywamy kropki
+        //Zreszt¹ do statycznych rzeczy te¿ kropeczka
         this.functionToCall = functionToCall;
 		isActive = true;
 	}
     public void StopTimer()
     {
         isActive = false;
+    }
+    public void ResetTimer()
+    {
+        isActive = false;
+        TimeLeft = 0;
+        functionToCall = null;
     }
     public void ToggleTimer()
     {

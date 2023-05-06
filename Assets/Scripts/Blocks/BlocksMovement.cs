@@ -4,47 +4,79 @@ using UnityEngine;
 
 public class BlocksMovement : MonoBehaviour
 {
-	//pola klasy
-	private Transform transform;
-	private InputManager inputManager;
-	private Timer timer;
-	//metody klasy
-	//metoda Start jest dziedziczona z MonoBehaviour i jest wywo³ywana po za³adowaniu wszystkiego zaraz przed uruchomieniem wszystkich systemów
-	private void Start()
+    //Pola klasy
+    private Timer timer;
+    private InputManager inputManager;
+	private ConstSettingsManager csm;
+
+    //Metoda Awake jest dziedziczona z MonoBehaviour i jest wywo³ywana raz po za³adowaniu instancji tej klasy czyli po ztworzeniu GameObjectu z
+    //tym skryptem
+    private void Awake()
 	{
-		//pobieram komponent Transform (obiekt) od rodzica (GameObjectu) bo klasy dziedzicz¹ce MonoBehoviour s¹ równie¿ komponêtami sk³adowymi owego GameObjectu (i innych)
-		transform = GetComponent<Transform>();
-		//cachuje instancje InputManagera bo nie chce siê pisaæ, Instance to moje property, zapraszam do klasy InputManager
-		inputManager = InputManager.Instance;
+        //Cachuje instancje InputManagera bo nie chce siê pisaæ, Instance to moje property, zapraszam do klasy InputManager
+        timer = Timer.NewInstance;
+        inputManager = InputManager.Instance;
+        csm = GameManager.Instance.ConstSettingsManager;
 		VerticalMovement();
+		EventManager.OnBlockFloorCollision.AddListener(() => { enabled = false; });
 	}
-	//metoda Update te¿ jest dziedziczona i jest wykonywana co ka¿d¹ klatkê
+	//Metoda Update te¿ jest dziedziczona i jest wykonywana co ka¿d¹ klatkê
 	private void Update()
 	{
 		HorizontalMovement();
+		RotationalMovement();
+		HandleSoftDrop();
 	}
-	//moja metoda która ma za zadanie obs³ugiwaæ poziomy movement
 	private void HorizontalMovement()
 	{
-		//sprawdzam czy naciœniêty jest prawy przycisk po wiêcej informacii zapraszam do klasy inputManager
-		if (inputManager.GetRight())
+		CollisionResult colResult = Collision.IsNextToWallObject(gameObject.name);
+		//Sprawdzam czy naciœniêty jest prawy przycisk i czy blok nie jest obok prawej œciany
+		bool collisionBoolRight = (colResult.IsColliding && !colResult.IsWallRight) || (!colResult.IsColliding);
+		bool collisionsBoolLeft = (colResult.IsColliding && colResult.IsWallRight) || (!colResult.IsColliding);
+		if (inputManager.GetRight() && collisionBoolRight)
 		{
-			//ta linijka czyli metoda Translate dodaje wektor w argumencie do obecnego wektoru wyznaczaj¹cego pozycje
-			transform.Translate(Vector3.right);
+			transform.position += new Vector3(1, 0, 0);
 		}
-		if (inputManager.GetLeft())
+		if(inputManager.GetLeft() && collisionsBoolLeft)
 		{
-			transform.Translate(Vector3.left);
+			transform.position += new Vector3(-1, 0, 0);
+		}
+	}
+	private void RotationalMovement()
+	{
+		if (inputManager.GetRotateRight())
+		{
+			transform.Rotate(new Vector3(0, 0, -90));
+		}
+		if (inputManager.GetRotateLeft())
+		{
+			transform.Rotate(new Vector3(0, 0, 90));
+		}
+	}
+	private void HandleSoftDrop()
+	{
+		if (inputManager.GetSoftDrop())
+		{
+			timer.ResetTimer();
+			timer.TimeLeft = 0;
+			timer.StartTimer(VerticalMovement);
+		}
+		if (inputManager.GetSoftDropUp())
+		{
+			timer.ResetTimer();
+			timer.TimeLeft = 1;
+			timer.StartTimer(HorizontalMovement);
 		}
 	}
 	private void VerticalMovement()
 	{
-		transform.Translate(Vector3.down);
-		//Two¿ê now¹ instancje klasy Timer za pomoc¹ property, zapraszam do tej klasy
-		timer = Timer.NewInstance;
-		timer.TimeLeft = 1;
-		//uruchamiam timer i podajê metode do wywo³ania po zakoñczeniu odliczania
+        if (!enabled) return;
+		
+		transform.position -= new Vector3(0, 1, 0);
+
+        float timeLeft = inputManager.GetSoftDropHold() ? csm.SoftDropFallTime : csm.FallTime;
+        timer.TimeLeft = timeLeft;
+		//Uruchamiam timer i podajê metode do wywo³ania po zakoñczeniu odliczania
 		timer.StartTimer(VerticalMovement);
 	}
-
 }
