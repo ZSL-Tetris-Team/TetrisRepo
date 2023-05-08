@@ -5,4 +5,5 @@ using UnityEngine;
 public static class EventManager
 {
     public static Event OnBlockFloorCollision = new();
+    public static Event<GameManager.States> SwitchGameManagerState= new();
 }

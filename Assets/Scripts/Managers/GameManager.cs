@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameManager : Singelton<GameManager>
 {
-    private enum States
+    public enum States
     {
         InstantiateBlock,
         WaitForBlock
@@ -22,11 +22,11 @@ public class GameManager : Singelton<GameManager>
         WallMask = LayerMask.GetMask("WallLayer", "CubeLayer");
         PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
         ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
+        EventManager.SwitchGameManagerState.AddListener((States state) => { SwitchState(state); });
     }
     private void Start()
     {
         SwitchState(States.InstantiateBlock);
-        EventManager.OnBlockFloorCollision.AddListener(() => { SwitchState(States.InstantiateBlock); });
     }
     private void SwitchState(States state)
     {

@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class BlocksMovement : MonoBehaviour
 {
-    //Pola klasy
-    private Timer timer;
-    private InputManager inputManager;
+	//Pola klasy
+	private Timer timer;
+	private InputManager inputManager;
 	private ConstSettingsManager csm;
+	private BoxCollider col;
 
-    //Metoda Awake jest dziedziczona z MonoBehaviour i jest wywo³ywana raz po za³adowaniu instancji tej klasy czyli po ztworzeniu GameObjectu z
-    //tym skryptem
-    private void Awake()
+	//Metoda Awake jest dziedziczona z MonoBehaviour i jest wywo³ywana raz po za³adowaniu instancji tej klasy czyli po ztworzeniu GameObjectu z
+	//tym skryptem
+	private void Awake()
 	{
-        //Cachuje instancje InputManagera bo nie chce siê pisaæ, Instance to moje property, zapraszam do klasy InputManager
-        timer = Timer.NewInstance;
-        inputManager = InputManager.Instance;
-        csm = GameManager.Instance.ConstSettingsManager;
+		//Cachuje instancje InputManagera bo nie chce siê pisaæ, Instance to moje property, zapraszam do klasy InputManager
+		timer = Timer.NewInstance;
+		inputManager = InputManager.Instance;
+		csm = GameManager.Instance.ConstSettingsManager;
+		col = gameObject.GetComponent<BoxCollider>();
 		VerticalMovement();
 		EventManager.OnBlockFloorCollision.AddListener(() => { enabled = false; });
 	}
@@ -26,6 +28,7 @@ public class BlocksMovement : MonoBehaviour
 		HorizontalMovement();
 		RotationalMovement();
 		HandleSoftDrop();
+		HandleHardDrop();
 	}
 	private void HorizontalMovement()
 	{
@@ -37,7 +40,7 @@ public class BlocksMovement : MonoBehaviour
 		{
 			transform.position += new Vector3(1, 0, 0);
 		}
-		if(inputManager.GetLeft() && collisionsBoolLeft)
+		if (inputManager.GetLeft() && collisionsBoolLeft)
 		{
 			transform.position += new Vector3(-1, 0, 0);
 		}
@@ -64,14 +67,24 @@ public class BlocksMovement : MonoBehaviour
 			timer.TimeLeft = csm.FallTime * 0.5f;
 		}
 	}
+	private void HandleHardDrop()
+	{
+		if (inputManager.GetHardDrop())
+		{
+			transform.position = Collision.GetClosestBottomPoint(gameObject);
+			EventManager.OnBlockFloorCollision.Invoke();
+            EventManager.SwitchGameManagerState.Invoke(GameManager.States.InstantiateBlock);
+        }
+	}
 	private void VerticalMovement()
 	{
-        if (!enabled) return;
-		
+		if (!enabled) return;
+
 		transform.position -= new Vector3(0, 1, 0);
 
-        float timeLeft = inputManager.GetSoftDropHold() ? csm.SoftDropFallTime : csm.FallTime;
-        timer.TimeLeft = timeLeft;
+		float timeLeft = inputManager.GetSoftDropHold() ? csm.SoftDropFallTime : csm.FallTime;
+		timer.TimeLeft = timeLeft;
+
 		//Uruchamiam timer i podajê metode do wywo³ania po zakoñczeniu odliczania
 		timer.StartTimer(VerticalMovement);
 	}

@@ -15,6 +15,7 @@ public class Collision : MonoBehaviour
     
     [SerializeField] private GameObject parent;
     private Ray[] raysToCast;
+    private Ray bottomRay;
     private bool isNextToWallCube = false;
     private bool isNextToFloorCube = false;
     private BoxCollider col;
@@ -30,6 +31,7 @@ public class Collision : MonoBehaviour
         Id = collisionsCount++;
         AddToList();
         raysToCast = GetUpdatedRays();
+        EventManager.OnBlockFloorCollision.AddListener(DisableAllCollisions);
     }
     //Update jest wywo³ywany co ka¿d¹ klatkê
     private void Update()
@@ -41,7 +43,6 @@ public class Collision : MonoBehaviour
     {
         isNextToWallCube = WallCheck();
         isNextToFloorCube = FloorCheck();
-        DisableAllCollisions();
         InvokeEvents();
     }
     //Moje metody
@@ -62,6 +63,23 @@ public class Collision : MonoBehaviour
             if (collision.isNextToFloorCube) return true;
         }
         return false;
+    }
+    public static Vector3 GetClosestBottomPoint(GameObject parent)
+    {
+        Collision finalCollision = collisionsScripts[parent.name][0];
+        float rayLength = finalCollision.GetBottomPoint().distance;
+
+        foreach(Collision collision in collisionsScripts[parent.name])
+        {
+            RaycastHit hit = collision.GetBottomPoint();
+            if (hit.distance < rayLength)
+            {
+                rayLength = hit.distance;
+                finalCollision = collision;
+            }
+        }
+
+        return new Vector3(parent.transform.position.x, finalCollision.GetBottomPoint().point.y, parent.transform.position.z);
     }
     private void AddToList()
     {
@@ -104,6 +122,13 @@ public class Collision : MonoBehaviour
         }
         return false;
     }
+    private RaycastHit GetBottomPoint()
+    {
+        bottomRay = GetUpdatedBottomRay();
+        RaycastHit hit;
+        Physics.Raycast(bottomRay, out hit, Mathf.Infinity, GameManager.Instance.FloorMask);
+        return hit;
+    }
     private void DrawRays()
     {
         foreach(Ray ray in raysToCast)
@@ -113,6 +138,16 @@ public class Collision : MonoBehaviour
             
             Debug.DrawRay(ray.origin, ray.direction * 0.9f, Color.green);
         }
+
+        foreach (Ray ray in raysToCast)
+        {
+            if (Vector3.Dot(Vector3.down, ray.direction) != 1) continue;
+
+            Debug.DrawRay(ray.origin, ray.direction * 0.9f, Color.red);
+        }
+
+        bottomRay = GetUpdatedBottomRay();
+        Debug.DrawRay(bottomRay.origin, Vector3.down * 100);
     }
     private Ray[] GetUpdatedRays()
     {
@@ -126,22 +161,24 @@ public class Collision : MonoBehaviour
             new Ray(worldSpaceColOrigin, -transform.right)
         };
     }
+    private Ray GetUpdatedBottomRay()
+    {
+        return new Ray(transform.TransformPoint(col.center), Vector3.down);
+    }
     private void InvokeEvents()
     {
         if(isNextToFloorCube)
         {
             EventManager.OnBlockFloorCollision.Invoke();
+            EventManager.SwitchGameManagerState.Invoke(GameManager.States.InstantiateBlock);
         }
     }
     private void DisableAllCollisions()
     {
-        if(isNextToFloorCube)
+        foreach (Collision collision in collisionsScripts[parent.name])
         {
-            foreach(Collision collision in collisionsScripts[parent.name])
-            {
-                collision.enabled = false;
-                collision.GetComponent<BoxCollider>().enabled = true;
-            }
+            collision.enabled = false;
+            collision.GetComponent<BoxCollider>().enabled = true;
         }
     }
 }
