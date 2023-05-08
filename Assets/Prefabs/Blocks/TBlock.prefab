@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2549469796775134204}
   - component: {fileID: 181340144674533838}
-  - component: {fileID: -8990530287862966415}
   m_Layer: 8
   m_Name: TBlock
   m_TagString: Untagged
@@ -49,19 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e53b98dbafb84387551a85705e363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &-8990530287862966415
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2549469796775134207}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 3, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &299048852356183150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71,6 +57,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: parent
+      value: 
+      objectReference: {fileID: 2549469796775134207}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
       value: 
       objectReference: {fileID: 2549469796775134207}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
@@ -159,6 +149,10 @@ PrefabInstance:
       propertyPath: parent
       value: 
       objectReference: {fileID: 2549469796775134207}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
+      value: 
+      objectReference: {fileID: 2549469796775134207}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -239,6 +233,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: parent
+      value: 
+      objectReference: {fileID: 2549469796775134207}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
       value: 
       objectReference: {fileID: 2549469796775134207}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
@@ -325,6 +323,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: parent
+      value: 
+      objectReference: {fileID: 2549469796775134207}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
       value: 
       objectReference: {fileID: 2549469796775134207}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}

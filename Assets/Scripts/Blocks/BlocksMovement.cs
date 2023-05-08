@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class BlocksMovement : MonoBehaviour
@@ -8,7 +9,6 @@ public class BlocksMovement : MonoBehaviour
 	private Timer timer;
 	private InputManager inputManager;
 	private ConstSettingsManager csm;
-	private BoxCollider col;
 
 	//Metoda Awake jest dziedziczona z MonoBehaviour i jest wywo³ywana raz po za³adowaniu instancji tej klasy czyli po ztworzeniu GameObjectu z
 	//tym skryptem
@@ -18,9 +18,8 @@ public class BlocksMovement : MonoBehaviour
 		timer = Timer.NewInstance;
 		inputManager = InputManager.Instance;
 		csm = GameManager.Instance.ConstSettingsManager;
-		col = gameObject.GetComponent<BoxCollider>();
-		VerticalMovement();
 		EventManager.OnBlockFloorCollision.AddListener(() => { enabled = false; });
+		VerticalMovement();
 	}
 	//Metoda Update te¿ jest dziedziczona i jest wykonywana co ka¿d¹ klatkê
 	private void Update()
@@ -32,7 +31,9 @@ public class BlocksMovement : MonoBehaviour
 	}
 	private void HorizontalMovement()
 	{
-		CollisionResult colResult = Collision.IsNextToWallObject(gameObject.name);
+		if (!inputManager.GetRight() && !inputManager.GetLeft()) return;
+		
+		CollisionResult colResult = Collision.IsNextToWall(gameObject.name);
 		//Sprawdzam czy naciœniêty jest prawy przycisk i czy blok nie jest obok prawej œciany
 		bool collisionBoolRight = (colResult.IsColliding && !colResult.IsWallRight) || (!colResult.IsColliding);
 		bool collisionsBoolLeft = (colResult.IsColliding && colResult.IsWallRight) || (!colResult.IsColliding);
@@ -73,7 +74,6 @@ public class BlocksMovement : MonoBehaviour
 		{
 			transform.position = Collision.GetClosestBottomPoint(gameObject);
 			EventManager.OnBlockFloorCollision.Invoke();
-            EventManager.SwitchGameManagerState.Invoke(GameManager.States.InstantiateBlock);
         }
 	}
 	private void VerticalMovement()

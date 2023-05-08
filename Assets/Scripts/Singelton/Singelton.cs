@@ -12,10 +12,12 @@ public class Singelton<T> : MonoBehaviour where T : Component
         {
             if(_instance == null)
             {
-                GameObject obj = new();
-                obj.name = typeof(T).Name;
-                obj.hideFlags = HideFlags.HideAndDontSave;
-                _instance = obj.AddComponent<T>();
+				GameObject obj = new()
+				{
+					name = typeof(T).Name,
+					hideFlags = HideFlags.HideAndDontSave
+				};
+				_instance = obj.AddComponent<T>();
             }
             return _instance;
         }

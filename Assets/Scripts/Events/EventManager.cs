@@ -4,6 +4,10 @@ using UnityEngine;
 
 public static class EventManager
 {
-    public static Event OnBlockFloorCollision = new();
-    public static Event<GameManager.States> SwitchGameManagerState= new();
+	//Initialization events
+	//public static Event OnGameManagerDependeciesLoaded = new();
+
+	//Update events
+	public static Event OnBlockFloorCollision = new();
+	public static Event OnBlockInstantiate = new();
 }

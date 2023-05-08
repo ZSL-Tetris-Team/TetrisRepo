@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1672138396497011310}
   - component: {fileID: 1672138396497011311}
-  - component: {fileID: 5561099047379699072}
   m_Layer: 8
   m_Name: IBlock
   m_TagString: Untagged
@@ -49,19 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e53b98dbafb84387551a85705e363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &5561099047379699072
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1672138396497011309}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 4, y: 1, z: 1}
-  m_Center: {x: 0.5, y: 0, z: 0}
 --- !u!1001 &1068903073680462461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77,13 +63,17 @@ PrefabInstance:
       propertyPath: _gameObject
       value: 
       objectReference: {fileID: 1672138396497011309}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
+      value: 
+      objectReference: {fileID: 1672138396497011309}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_VersionIndex
-      value: 559
+      value: 565
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753556, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_RootOrder
@@ -163,13 +153,17 @@ PrefabInstance:
       propertyPath: parent
       value: 
       objectReference: {fileID: 1672138396497011309}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
+      value: 
+      objectReference: {fileID: 1672138396497011309}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_VersionIndex
-      value: 565
+      value: 571
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753556, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_RootOrder
@@ -249,13 +243,17 @@ PrefabInstance:
       propertyPath: parent
       value: 
       objectReference: {fileID: 1672138396497011309}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
+      value: 
+      objectReference: {fileID: 1672138396497011309}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_VersionIndex
-      value: 562
+      value: 568
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753556, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_RootOrder
@@ -335,13 +333,17 @@ PrefabInstance:
       propertyPath: parent
       value: 
       objectReference: {fileID: 1672138396497011309}
+    - target: {fileID: 2247576072792862244, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
+      propertyPath: grandParent
+      value: 
+      objectReference: {fileID: 1672138396497011309}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753553, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_VersionIndex
-      value: 541
+      value: 547
       objectReference: {fileID: 0}
     - target: {fileID: 4535065239404753556, guid: 744f0a00cf33b4f44aad0b2ee51e5638, type: 3}
       propertyPath: m_RootOrder
