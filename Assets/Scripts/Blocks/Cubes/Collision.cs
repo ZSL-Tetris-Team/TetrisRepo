@@ -10,7 +10,7 @@ public class Collision : MonoBehaviour
 	//Klucz (string) to nazwa rodzica tego skryptu, z niej dostajemy listę skryptów należących do dzieci rodzica
 	//Każdy indeks w liście odpowiada id skryptu Collision
 	//Na koniec dostajemy sam¹ instancję
-	private static Dictionary<string, List<Collision>> collisionScripts = new();
+	private static readonly Dictionary<string, List<Collision>> collisionScripts = new();
 
 	[SerializeField] private GameObject parent;
 	private bool isNextToFloor = false;
@@ -19,7 +19,7 @@ public class Collision : MonoBehaviour
 	private bool isWallRight = false;
 	private Ray BottomRay
 	{
-		get => new Ray(transform.TransformPoint(col.center), Vector3.down);
+		get => new(transform.TransformPoint(col.center), Vector3.down);
 	}
 	private Ray[] RaysToCast
 	{
@@ -57,7 +57,12 @@ public class Collision : MonoBehaviour
 	{
 		isNextToFloor = FloorCheck();
 	}
+	private void OnDestroy()
+	{
+		collisionScripts[parent.name].Remove(this);
+	}
 	//Moje metody
+	#region static
 	public static CollisionResult IsNextToWall(string parentName)
 	{
 		if (!collisionScripts.ContainsKey(parentName)) return new CollisionResult(false, false);
@@ -97,6 +102,7 @@ public class Collision : MonoBehaviour
 		float distanceToParent = parent.transform.position.y - finalCollision.transform.TransformPoint(finalCollision.col.center).y;
 		return new Vector3(parent.transform.position.x, finalHit.point.y + finalCollision.col.size.y * 0.5f + distanceToParent, parent.transform.position.z);
 	}
+	#endregion
 	private void AddToList()
 	{
 		if (!collisionScripts.ContainsKey(parent.name))
@@ -104,6 +110,7 @@ public class Collision : MonoBehaviour
 
 		collisionScripts[parent.name].Add(this);
 	}
+	
 	private bool WallCheck()
 	{
 		foreach (Ray ray in RaysToCast)
@@ -113,8 +120,7 @@ public class Collision : MonoBehaviour
 
 			if (dotRight != 1 && dotLeft != 1) continue;
 
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit, 0.9f, GameManager.Instance.WallMask))
+			if (Physics.Raycast(ray, out RaycastHit hit, 0.9f, GameManager.Instance.WallMask))
 			{
 				Debug.Log("Wall true");
 				isWallRight = dotRight == 1;
@@ -133,7 +139,6 @@ public class Collision : MonoBehaviour
 			if (Physics.Raycast(ray, out hit, 0.9f, GameManager.Instance.FloorMask))
 			{
 				Debug.Log("Floor true");
-				EventManager.OnBlockFloorCollision.Invoke();
 				return true;
 			}
 		}
@@ -141,9 +146,16 @@ public class Collision : MonoBehaviour
 	}
 	private RaycastHit GetBottomPoint()
 	{
-		RaycastHit hit;
-		Physics.Raycast(BottomRay, out hit, Mathf.Infinity, GameManager.Instance.FloorMask);
+		Physics.Raycast(BottomRay, out RaycastHit hit, Mathf.Infinity, GameManager.Instance.FloorMask);
 		return hit;
+	}
+	private void DisableAllCollisions()
+	{
+		foreach (Collision collision in collisionScripts[parent.name])
+		{
+			collision.enabled = false;
+			collision.GetComponent<BoxCollider>().enabled = true;
+		}
 	}
 	private void DrawRays()
 	{
@@ -163,13 +175,5 @@ public class Collision : MonoBehaviour
 		}
 
 		Debug.DrawRay(BottomRay.origin, Vector3.down * 100);
-	}
-	private void DisableAllCollisions()
-	{
-		foreach (Collision collision in collisionScripts[parent.name])
-		{
-			collision.enabled = false;
-			collision.GetComponent<BoxCollider>().enabled = true;
-		}
 	}
 }

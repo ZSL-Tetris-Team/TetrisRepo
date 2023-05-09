@@ -9,6 +9,9 @@ public class BlocksMovement : MonoBehaviour
 	private Timer timer;
 	private InputManager inputManager;
 	private ConstSettingsManager csm;
+	private float horizontalDistanceToTravel = 0;
+	private float verticalDistanceToTravel = 0;
+	private float horizontalSpeed;
 
 	//Metoda Awake jest dziedziczona z MonoBehaviour i jest wywo³ywana raz po za³adowaniu instancji tej klasy czyli po ztworzeniu GameObjectu z
 	//tym skryptem
@@ -18,6 +21,7 @@ public class BlocksMovement : MonoBehaviour
 		timer = Timer.NewInstance;
 		inputManager = InputManager.Instance;
 		csm = GameManager.Instance.ConstSettingsManager;
+		horizontalSpeed = csm.HorizontalBlockSpeed;
 		EventManager.OnBlockFloorCollision.AddListener(() => { enabled = false; });
 		VerticalMovement();
 	}
@@ -28,6 +32,25 @@ public class BlocksMovement : MonoBehaviour
 		RotationalMovement();
 		HandleSoftDrop();
 		HandleHardDrop();
+		HandleDistanceToTravel();
+	}
+	private void HandleDistanceToTravel()
+	{
+		if (horizontalDistanceToTravel > 0)
+		{
+			transform.position += new Vector3(Time.deltaTime * horizontalSpeed, 0, 0);
+			horizontalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
+		}
+		if (horizontalDistanceToTravel < 0)
+		{
+			transform.position += new Vector3(-Time.deltaTime * horizontalSpeed, 0, 0);
+			horizontalDistanceToTravel += Time.deltaTime * horizontalSpeed;
+		}
+		if(verticalDistanceToTravel > 0)
+		{
+			transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
+			verticalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
+		}
 	}
 	private void HorizontalMovement()
 	{
@@ -39,11 +62,11 @@ public class BlocksMovement : MonoBehaviour
 		bool collisionsBoolLeft = (colResult.IsColliding && colResult.IsWallRight) || (!colResult.IsColliding);
 		if (inputManager.GetRight() && collisionBoolRight)
 		{
-			transform.position += new Vector3(1, 0, 0);
+			horizontalDistanceToTravel++;
 		}
 		if (inputManager.GetLeft() && collisionsBoolLeft)
 		{
-			transform.position += new Vector3(-1, 0, 0);
+			horizontalDistanceToTravel--;
 		}
 	}
 	private void RotationalMovement()
@@ -79,8 +102,12 @@ public class BlocksMovement : MonoBehaviour
 	private void VerticalMovement()
 	{
 		if (!enabled) return;
+		if (Collision.IsNextToFloor(gameObject.name))
+		{
+			EventManager.OnBlockFloorCollision.Invoke();
+		}
 
-		transform.position -= new Vector3(0, 1, 0);
+		verticalDistanceToTravel++;
 
 		float timeLeft = inputManager.GetSoftDropHold() ? csm.SoftDropFallTime : csm.FallTime;
 		timer.TimeLeft = timeLeft;

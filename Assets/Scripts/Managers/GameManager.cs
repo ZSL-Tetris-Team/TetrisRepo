@@ -17,7 +17,6 @@ public class GameManager : Singelton<GameManager>
     public int FloorMask { get; private set; }
     public int WallMask { get; private set; }
     public int BlocksCount { get; private set; } = 0;
-    public int BoardWidth { get; private set; } = 8;
     private void Awake()
     {
         FloorMask = LayerMask.GetMask("FloorLayer", "CubeLayer");
@@ -25,6 +24,7 @@ public class GameManager : Singelton<GameManager>
         PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
         ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
         EventManager.OnBlockFloorCollision.AddListener(() => { SwitchState(States.InstantiateBlock); });
+		EventManager.OnGameManagerDependeciesLoaded.Invoke();
 	}
 	private void Start()
 	{
@@ -41,13 +41,14 @@ public class GameManager : Singelton<GameManager>
                 break;
             case States.WaitForBlock:
                 Debug.Log("WaitForBlock");
-                //kod jeszcze nie zaimplementowany
-                break;
+                FullLineHandler.HandleDestroyingCubes();
+				//FullLineHandler.DebugHeight();
+				break;
         }
     }
     private void InstantiateBlock()
     {
-		PrefabUtility.InstantiatePrefab(DrawBlock()).name += BlocksCount++;
+		Instantiate(DrawBlock()).name += BlocksCount++;
 	}
     private GameObject DrawBlock()
     {
