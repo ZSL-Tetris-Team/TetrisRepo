@@ -10,6 +10,8 @@ public class ConstSettingsManager : ScriptableObject
 	[SerializeField]private int _boardWidth = 10;
 	[SerializeField] private int _boardHeight = 20;
     [SerializeField] private float _horizontalBlockSpeed = 6;
+	[SerializeField] private float _hardDropBlockSpeed = 6;
+    [SerializeField] private float _verticalBlockFallSpeed = 10;
 
 	public float FallTime
     {
@@ -33,5 +35,14 @@ public class ConstSettingsManager : ScriptableObject
     }
 	public float HorizontalBlockSpeed { 
         get => _horizontalBlockSpeed; 
-        set => _horizontalBlockSpeed = value; }
+        private set => _horizontalBlockSpeed = value; 
+    }
+	public float HardDropBlockSpeed { 
+        get => _hardDropBlockSpeed; 
+        private set => _hardDropBlockSpeed = value; 
+    }
+	public float VerticalBlockFallSpeed { 
+        get => _verticalBlockFallSpeed; 
+        set => _verticalBlockFallSpeed = value; 
+    }
 }

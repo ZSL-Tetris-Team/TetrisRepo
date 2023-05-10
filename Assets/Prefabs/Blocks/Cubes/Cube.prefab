@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2247576072792862244}
   - component: {fileID: 4717020936779521843}
   - component: {fileID: 8300545028334096243}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,3 +373,4 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   realHeight: 0
   _height: 0
+  isInvisible: 0
