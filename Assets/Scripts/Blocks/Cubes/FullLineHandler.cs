@@ -59,6 +59,11 @@ public class FullLineHandler : MonoBehaviour
 			transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
 			verticalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
 		}
+		if (verticalDistanceToTravel < 0)
+		{
+			verticalDistanceToTravel = 0;
+			transform.position = new Vector3(transform.position.x, (float)Math.Round(transform.position.y), transform.position.z);
+		}
 	}
 	private static bool IsLineFull(int height)
 	{

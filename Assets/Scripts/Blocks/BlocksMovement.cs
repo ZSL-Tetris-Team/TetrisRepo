@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build;
 using UnityEngine;
+using System;
 
 public class BlocksMovement : MonoBehaviour
 {
@@ -63,6 +63,16 @@ public class BlocksMovement : MonoBehaviour
 		{
 			transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
 			verticalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
+		}
+		if (horizontalDistanceToTravelLeft < 0)
+		{
+			horizontalDistanceToTravelLeft = 0;
+			transform.position = new Vector3((float)Math.Round(transform.position.x), transform.position.y, transform.position.z);
+		}
+		if (horizontalDistanceToTravelRight < 0)
+		{
+			horizontalDistanceToTravelRight = 0;
+			transform.position = new Vector3((float)Math.Round(transform.position.x), transform.position.y, transform.position.z);
 		}
 		//if (hardDropDistanceToTravel > 0)
 		//{

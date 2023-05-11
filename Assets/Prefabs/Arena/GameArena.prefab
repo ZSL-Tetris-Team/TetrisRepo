@@ -31,9 +31,106 @@ Transform:
   - {fileID: 2662392629514820736}
   - {fileID: 7064750676518219157}
   - {fileID: 6794092116076687214}
+  - {fileID: 543450651900557343}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1841422324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5392726972759122312}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_Name
+      value: PlaneForTetris (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+--- !u!4 &543450651900557343 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+  m_PrefabInstance: {fileID: 1841422324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &919132147641279141 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
+  m_PrefabInstance: {fileID: 1841422324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &318720726
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147641279141}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.080861606, y: 0.08086163, z: 0.0042198156}
+  m_Center: {x: 0, y: 0, z: -0.002108135}
 --- !u!1001 &2555808735350242155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,7 +232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 200
+      value: 260
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -143,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -223,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 200
+      value: 260
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -231,7 +328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 02480d6e773bb654babdfa20283066cb, type: 3}
       propertyPath: m_LocalPosition.z
