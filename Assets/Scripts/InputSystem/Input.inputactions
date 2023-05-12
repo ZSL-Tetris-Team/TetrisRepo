@@ -1,0 +1,200 @@
+{
+    "name": "Input",
+    "maps": [
+        {
+            "name": "Blocks",
+            "id": "a0ba25c0-e34a-4c80-bac7-914982feed84",
+            "actions": [
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "561a374d-dd29-429a-bed1-f791dfe9710f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left",
+                    "type": "Button",
+                    "id": "d693da7f-9a0d-4651-94da-8895947dd4f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateLeft",
+                    "type": "Button",
+                    "id": "6ce3e3ae-cbad-4661-96be-225d8e10c861",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateRight",
+                    "type": "Button",
+                    "id": "d8e5619e-ec31-4ecf-90b1-2163ef75b67a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SoftDropHold",
+                    "type": "Value",
+                    "id": "dcf89304-8db1-48f9-bfc1-d5a5aedfdbc7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HardDrop",
+                    "type": "Button",
+                    "id": "5193b32f-a91f-472f-9d87-b3d37fed2edc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HoldPiece",
+                    "type": "Button",
+                    "id": "2961c7a3-714d-4fda-905f-8b4b90482393",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SoftDropUp",
+                    "type": "Button",
+                    "id": "1cdd261b-e78e-41a1-a485-9967b03304e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SoftDropDown",
+                    "type": "Button",
+                    "id": "9c09aabc-157e-4e3c-9c52-c804b32a3f60",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f9f4654c-907e-463b-9acc-2a980016462c",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2daf0ec1-e9f3-410b-b7e2-c1cb42b8d155",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f72c1bf-0c28-401d-951b-13dd59f700e4",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "RotateLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "49b82eba-ff99-4df0-9d61-fda4ef207167",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "RotateRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c3f7a106-2582-4097-aa5c-385e73a2f348",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "Hold(duration=1.401298E-45)",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "SoftDropHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e29512a-c34a-493e-81b2-010da6f1e7ae",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "HardDrop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7ad0921a-ff0e-4342-a849-8c61e323fb49",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "HoldPiece",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "decd79cb-3b7b-46b8-af0d-179c250f9470",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "SoftDropUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5681efad-cb50-4c7e-87b7-6e17f5af0b17",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Blocks",
+                    "action": "SoftDropDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Blocks",
+            "bindingGroup": "Blocks",
+            "devices": []
+        }
+    ]
+}
