@@ -12,6 +12,7 @@ public class GameManager : Singelton<GameManager>
         InstantiateBlock,
         WaitForBlock
     }
+    public GameObject board;
     public PrefabManager PrefabManager { get; private set; }
     public ConstSettingsManager ConstSettingsManager { get; private set; }
     public int FloorMask { get; private set; }
@@ -48,7 +49,10 @@ public class GameManager : Singelton<GameManager>
     }
     private void InstantiateBlock()
     {
-		Instantiate(DrawBlock()).name += BlocksCount++;
+        GameObject block = Instantiate(DrawBlock());
+        block.name += BlocksCount++;
+        block.transform.position = board.transform.position + new Vector3(0, 18.5f, 0);
+
 	}
     private GameObject DrawBlock()
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ConstSettingsManager", menuName = "ScriptableObjects/ConstSettingsManager")]
 public class ConstSettingsManager : ScriptableObject
 {
+    [SerializeField] private GameObject board;
     [SerializeField][Range(0.1f, 1)] private float _fallTime = 1;
     [SerializeField][Range(0.1f, 1)] private float _softDropFallTime = 0.5f;
 	[SerializeField]private int _boardWidth = 10;
@@ -44,5 +45,9 @@ public class ConstSettingsManager : ScriptableObject
 	public float VerticalBlockFallSpeed { 
         get => _verticalBlockFallSpeed; 
         set => _verticalBlockFallSpeed = value; 
+    }
+	public GameObject Board { 
+        get => board;
+        set => board = value; 
     }
 }

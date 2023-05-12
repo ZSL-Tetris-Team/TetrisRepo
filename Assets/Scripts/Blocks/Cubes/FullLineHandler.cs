@@ -26,10 +26,18 @@ public class FullLineHandler : MonoBehaviour
 			Vector3 pos = transform.TransformPoint(col.center);
 			position = pos;
 			realHeight = pos.y;
+
 			int height = (int)Math.Round(pos.y - 0.5f);
-			//transform.position = new Vector3(transform.position.x, height, transform.position.z);
 			_height = height;
+
 			return height;
+		}
+	}
+	public Vector3 Position
+	{
+		get
+		{
+			return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 		}
 	}
 	private void Awake()
@@ -62,7 +70,7 @@ public class FullLineHandler : MonoBehaviour
 		if (verticalDistanceToTravel < 0)
 		{
 			verticalDistanceToTravel = 0;
-			transform.position = new Vector3(transform.position.x, (float)Math.Round(transform.position.y), transform.position.z);
+			transform.position = new Vector3(Position.x, (float)Math.Round(Position.y) - 0.5f, Position.z);
 		}
 	}
 	private static bool IsLineFull(int height)
