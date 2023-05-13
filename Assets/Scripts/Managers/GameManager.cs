@@ -44,7 +44,7 @@ public class GameManager : Singelton<GameManager>
         {
             case States.InstantiateBlock:
 
-				if (FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight)
+				if (FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 1)
 				{
 					SwitchState(States.Lost);
 					break;
@@ -92,9 +92,11 @@ public class GameManager : Singelton<GameManager>
 	}
 	private void InstantiateBlock()
     {
+		float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 20.5f : 18.5f; 
+
         GameObject block = Instantiate(DrawBlock());
         block.name += BlocksCount++;
-        block.transform.position = board.transform.position + new Vector3(board.transform.position.x, 25.5f, 0);
+        block.transform.position = board.transform.position + new Vector3(0, y, 0);
 
 		blocks.Add(block);
 	}
