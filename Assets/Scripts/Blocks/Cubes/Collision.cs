@@ -59,6 +59,7 @@ public class Collision : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
+		EventManager.OnBlockFloorCollision.RemoveListener(DisableAllCollisions);
 		collisionScripts[parent.name].Remove(this);
 	}
 	//Moje metody
@@ -153,6 +154,7 @@ public class Collision : MonoBehaviour
 	{
 		foreach (Collision collision in collisionScripts[parent.name])
 		{
+			
 			collision.enabled = false;
 			collision.GetComponent<BoxCollider>().enabled = true;
 		}

@@ -66,6 +66,11 @@ public class FullLineHandler : MonoBehaviour
 		{
 			transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
 			verticalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
+		} else
+		if (verticalDistanceToTravel < 0)
+		{
+			verticalDistanceToTravel = 0;
+			transform.position = new Vector3(Position.x, (float)Math.Round(Position.y) - 0.5f, Position.z);
 		}
 		if (verticalDistanceToTravel < 0)
 		{
@@ -76,22 +81,29 @@ public class FullLineHandler : MonoBehaviour
 	private static bool IsLineFull(int height)
 	{
 		int count = lineHandlerScripts.Where(lineScript => lineScript.Height == height && !lineScript.isInvisible).Count();
-		Debug.Log($"Count: {count} | Height: {height}");
+		//Debug.Log($"Count: {count} | Height: {height}");
 		return count == GameManager.Instance.ConstSettingsManager.BoardWidth;
 	}
 	public static void DebugHeight()
 	{
 		var heights = lineHandlerScripts.Where(lineHander => !lineHander.isInvisible).Select(lineHander => lineHander.Height).Distinct().ToList();
-
 		foreach(float height in heights)
 		{
 			Debug.Log(height);
 		}
 	}
+	public static int GetHighestHeight()
+	{
+		return lineHandlerScripts.Select(lineHandler => lineHandler.Height).OrderByDescending(number => number).FirstOrDefault();
+	}
 	public static void HandleDestroyingCubes()
 	{
 		List<int> heights = lineHandlerScripts.Select(lineHander => lineHander.Height).Distinct().OrderByDescending(number => number).ToList();
 
+		foreach(var lineHandler in lineHandlerScripts)
+		{
+			_ = lineHandler.Height;
+		}
 		foreach (int height in heights)
 		{
 			if (IsLineFull(height))

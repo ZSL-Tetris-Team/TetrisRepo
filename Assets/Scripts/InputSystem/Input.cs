@@ -210,6 +210,34 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Ui"",
+            ""id"": ""724e010a-c6a3-46ee-9b98-746c24e7690a"",
+            ""actions"": [
+                {
+                    ""name"": ""TryAgain"",
+                    ""type"": ""Button"",
+                    ""id"": ""f202e53a-e7c5-4e17-8864-79e76a2dd607"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fd273084-b678-4cbd-a7fc-a9c2ea8c55ba"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Blocks"",
+                    ""action"": ""TryAgain"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -231,6 +259,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
         m_Blocks_HoldPiece = m_Blocks.FindAction("HoldPiece", throwIfNotFound: true);
         m_Blocks_SoftDropUp = m_Blocks.FindAction("SoftDropUp", throwIfNotFound: true);
         m_Blocks_SoftDropDown = m_Blocks.FindAction("SoftDropDown", throwIfNotFound: true);
+        // Ui
+        m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
+        m_Ui_TryAgain = m_Ui.FindAction("TryAgain", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -383,6 +414,39 @@ public partial class @Input : IInputActionCollection2, IDisposable
         }
     }
     public BlocksActions @Blocks => new BlocksActions(this);
+
+    // Ui
+    private readonly InputActionMap m_Ui;
+    private IUiActions m_UiActionsCallbackInterface;
+    private readonly InputAction m_Ui_TryAgain;
+    public struct UiActions
+    {
+        private @Input m_Wrapper;
+        public UiActions(@Input wrapper) { m_Wrapper = wrapper; }
+        public InputAction @TryAgain => m_Wrapper.m_Ui_TryAgain;
+        public InputActionMap Get() { return m_Wrapper.m_Ui; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UiActions set) { return set.Get(); }
+        public void SetCallbacks(IUiActions instance)
+        {
+            if (m_Wrapper.m_UiActionsCallbackInterface != null)
+            {
+                @TryAgain.started -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
+                @TryAgain.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
+                @TryAgain.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
+            }
+            m_Wrapper.m_UiActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @TryAgain.started += instance.OnTryAgain;
+                @TryAgain.performed += instance.OnTryAgain;
+                @TryAgain.canceled += instance.OnTryAgain;
+            }
+        }
+    }
+    public UiActions @Ui => new UiActions(this);
     private int m_BlocksSchemeIndex = -1;
     public InputControlScheme BlocksScheme
     {
@@ -403,5 +467,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
         void OnHoldPiece(InputAction.CallbackContext context);
         void OnSoftDropUp(InputAction.CallbackContext context);
         void OnSoftDropDown(InputAction.CallbackContext context);
+    }
+    public interface IUiActions
+    {
+        void OnTryAgain(InputAction.CallbackContext context);
     }
 }
