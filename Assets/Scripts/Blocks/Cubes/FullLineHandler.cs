@@ -15,7 +15,7 @@ public class FullLineHandler : MonoBehaviour
 	private BoxCollider col;
 	private float horizontalSpeed;
 	private float verticalDistanceToTravel = 0;
-	[SerializeField] private Vector3 position;
+	[SerializeField] private Vector3 ealPosition;
 	[SerializeField] private float realHeight;
 	[SerializeField] private int _height;
 	[SerializeField] private bool isInvisible;
@@ -24,20 +24,13 @@ public class FullLineHandler : MonoBehaviour
 		get
 		{
 			Vector3 pos = transform.TransformPoint(col.center);
-			position = pos;
+			ealPosition = pos;
 			realHeight = pos.y;
 
-			int height = (int)Math.Round(pos.y - 0.5f);
+			int height = (int)Math.Round(pos.y);
 			_height = height;
 
 			return height;
-		}
-	}
-	public Vector3 Position
-	{
-		get
-		{
-			return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 		}
 	}
 	private void Awake()
@@ -66,16 +59,11 @@ public class FullLineHandler : MonoBehaviour
 		{
 			transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
 			verticalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
-		} else
-		if (verticalDistanceToTravel < 0)
-		{
-			verticalDistanceToTravel = 0;
-			transform.position = new Vector3(Position.x, (float)Math.Round(Position.y) - 0.5f, Position.z);
 		}
 		if (verticalDistanceToTravel < 0)
 		{
 			verticalDistanceToTravel = 0;
-			transform.position = new Vector3(Position.x, (float)Math.Round(Position.y) - 0.5f, Position.z);
+			transform.position = new Vector3(transform.position.x, (float)Math.Round(transform.position.y), transform.position.z);
 		}
 	}
 	private static bool IsLineFull(int height)
