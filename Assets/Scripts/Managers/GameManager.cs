@@ -96,7 +96,7 @@ public class GameManager : Singelton<GameManager>
 
         GameObject block = Instantiate(DrawBlock());
         block.name += BlocksCount++;
-        block.transform.position = board.transform.position + new Vector3(0, y, 0);
+        block.transform.position = board.transform.position + new Vector3(-0.5f, y, 0);
 
 		blocks.Add(block);
 	}
