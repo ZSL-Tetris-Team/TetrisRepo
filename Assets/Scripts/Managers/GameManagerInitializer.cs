@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameManagerInitializer : MonoBehaviour
 {
+    [SerializeField] private GameObject board;
+    private GameManager gameManager;
     private void Awake()
     {
-        _ = GameManager.Instance;
+        gameManager = GameManager.Instance;
+        gameManager.board = board;
     }
 }

@@ -9,4 +9,6 @@ public static class EventManager
 
 	//Update events
 	public static Event OnBlockFloorCollision = new();
+	public static Event OnGameOver = new();
+	public static Event OnGameRestart = new();
 }
