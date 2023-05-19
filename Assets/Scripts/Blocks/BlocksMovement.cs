@@ -26,7 +26,7 @@ public class BlocksMovement : MonoBehaviour
 		csm = GameManager.Instance.ConstSettingsManager;
 		horizontalSpeed = csm.HorizontalBlockSpeed;
 		hardDripSpeed = csm.HardDropBlockSpeed;
-		EventManager.OnBlockFloorCollision.AddListener(() => { enabled = false; });
+		EventManager.OnBlockFloorCollision.AddListener(Disable);
 		//EventManager.OnCubeFall.AddListener(OnCubeFall);
 	}
 	private void Start()
@@ -45,7 +45,12 @@ public class BlocksMovement : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
-		//EventManager.OnCubeFall.RemoveListener(OnCubeFall);
+		EventManager.OnBlockFloorCollision.RemoveListener(Disable);
+		timer.ResetTimer();
+	}
+	private void Disable()
+	{
+		enabled = false;
 	}
 	private void HandleDistanceToTravel()
 	{
@@ -105,8 +110,6 @@ public class BlocksMovement : MonoBehaviour
 	}
 	private void RotationalMovement()
 	{
-		//if (Collision.IsNextToWall(gameObject.name).IsColliding) return;
-
 		if (inputManager.GetRotateRight())
 		{
 			transform.Rotate(new Vector3(0, 0, -90));

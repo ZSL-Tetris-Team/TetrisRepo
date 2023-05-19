@@ -59,6 +59,7 @@ public class Collision : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
+		EventManager.OnBlockFloorCollision.RemoveListener(DisableAllCollisions);
 		collisionScripts[parent.name].Remove(this);
 	}
 	//Moje metody
@@ -99,7 +100,7 @@ public class Collision : MonoBehaviour
 				rayLength = hit.distance;
 			}
 		}
-		float distanceToParent = parent.transform.position.y - finalCollision.transform.TransformPoint(finalCollision.col.center).y;
+		float distanceToParent = parent.transform.position.y - finalCollision.transform.TransformPoint(finalCollision.col.center).y + 0.5f;
 		return new Vector3(parent.transform.position.x, finalHit.point.y + finalCollision.col.size.y * 0.5f + distanceToParent, parent.transform.position.z);
 	}
 	#endregion
@@ -153,6 +154,7 @@ public class Collision : MonoBehaviour
 	{
 		foreach (Collision collision in collisionScripts[parent.name])
 		{
+			
 			collision.enabled = false;
 			collision.GetComponent<BoxCollider>().enabled = true;
 		}

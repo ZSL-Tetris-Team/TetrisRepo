@@ -10,8 +10,11 @@ public class GameManager : Singelton<GameManager>
     public enum States
     {
         InstantiateBlock,
-        WaitForBlock
+        WaitForBlock,
+        Lost
     }
+    public GameObject board;
+    private List<GameObject> blocks = new();
     public PrefabManager PrefabManager { get; private set; }
     public ConstSettingsManager ConstSettingsManager { get; private set; }
     public int FloorMask { get; private set; }
@@ -28,27 +31,74 @@ public class GameManager : Singelton<GameManager>
 	}
 	private void Start()
 	{
+        enabled = false;
 		SwitchState(States.InstantiateBlock);
+	}
+	private void Update()
+	{
+		InvokeOnGameRestart();
 	}
 	private void SwitchState(States state)
     {
         switch (state)
         {
             case States.InstantiateBlock:
-                Debug.Log("InstantiateBlock");
+
+				if (FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 1)
+				{
+					SwitchState(States.Lost);
+					break;
+				}
+
+				Debug.Log("InstantiateBlock");
                 InstantiateBlock();
                 SwitchState(States.WaitForBlock);
+
                 break;
             case States.WaitForBlock:
+
                 Debug.Log("WaitForBlock");
-                FullLineHandler.HandleDestroyingCubes();
-				//FullLineHandler.DebugHeight();
+				Debug.Log(FullLineHandler.GetHighestHeight());
+				FullLineHandler.HandleDestroyingCubes();
+
+				break;
+            case States.Lost:
+
+                Debug.Log("Lost");
+				
+				ResetGame();
+				EventManager.OnGameOver.Invoke();
+				enabled = true;
+
 				break;
         }
     }
-    private void InstantiateBlock()
+	private void InvokeOnGameRestart()
+	{
+		if (InputManager.Instance.GetTryAgain())
+		{
+			enabled = false;
+			EventManager.OnGameRestart.Invoke();
+			SwitchState(States.InstantiateBlock);
+		}
+	}
+	public void ResetGame()
+	{
+		foreach (var block in blocks)
+		{
+			Destroy(block);
+		}
+		blocks = new();
+	}
+	private void InstantiateBlock()
     {
-		Instantiate(DrawBlock()).name += BlocksCount++;
+		float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 20.5f : 18.5f; 
+
+        GameObject block = Instantiate(DrawBlock());
+        block.name += BlocksCount++;
+        block.transform.position = board.transform.position + new Vector3(-0.5f, y, 0);
+
+		blocks.Add(block);
 	}
     private GameObject DrawBlock()
     {
