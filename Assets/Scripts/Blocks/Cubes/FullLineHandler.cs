@@ -39,7 +39,7 @@ public class FullLineHandler : MonoBehaviour
 		gameManager = GameManager.Instance;
 		csm = gameManager.ConstSettingsManager;
 		horizontalSpeed = csm.HorizontalBlockSpeed;
-		//EventManager.OnBlockFloorCollision.AddListener(EnableLineHandler);
+		EventManager.OnBlockFloorCollision.AddListener(EnableLineHandler);
 	}
 	private void Start()
 	{
@@ -52,6 +52,11 @@ public class FullLineHandler : MonoBehaviour
 	private void OnDestroy()
 	{
 		lineHandlerScripts.Remove(this);
+		EventManager.OnBlockFloorCollision.RemoveListener(EnableLineHandler);
+	}
+	private void EnableLineHandler()
+	{
+		enabled = true;
 	}
 	private void HandleDistanceToTravel()
 	{
@@ -74,7 +79,7 @@ public class FullLineHandler : MonoBehaviour
 	}
 	public static void DebugHeight()
 	{
-		var heights = lineHandlerScripts.Where(lineHander => !lineHander.isInvisible).Select(lineHander => lineHander.Height).Distinct().ToList();
+		var heights = lineHandlerScripts.Where(lineHander => lineHander.enabled).Select(lineHander => lineHander.Height).Distinct().ToList();
 		foreach(float height in heights)
 		{
 			Debug.Log(height);
@@ -88,10 +93,6 @@ public class FullLineHandler : MonoBehaviour
 	{
 		List<int> heights = lineHandlerScripts.Select(lineHander => lineHander.Height).Distinct().OrderByDescending(number => number).ToList();
 
-		foreach(var lineHandler in lineHandlerScripts)
-		{
-			_ = lineHandler.Height;
-		}
 		foreach (int height in heights)
 		{
 			if (IsLineFull(height))
