@@ -29229,11 +29229,11 @@ LODGroup:
   serializedVersion: 2
   m_LocalReferencePoint: {x: 0.67176723, y: 15.488471, z: 0.16322517}
   m_Size: 32.827286
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
+  m_FadeMode: 2
+  m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.29413095
+  - screenRelativeHeight: 0.1684529
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4878435180849694588}

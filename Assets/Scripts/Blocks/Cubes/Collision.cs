@@ -100,7 +100,7 @@ public class Collision : MonoBehaviour
 				rayLength = hit.distance;
 			}
 		}
-		float distanceToParent = parent.transform.position.y - finalCollision.transform.TransformPoint(finalCollision.col.center).y + 0.5f;
+		float distanceToParent = parent.transform.position.y - finalCollision.transform.TransformPoint(finalCollision.col.center).y - 0.5f;
 		return new Vector3(parent.transform.position.x, finalHit.point.y + finalCollision.col.size.y * 0.5f + distanceToParent, parent.transform.position.z);
 	}
 	#endregion
@@ -152,7 +152,6 @@ public class Collision : MonoBehaviour
 	}
 	private void DisableAllCollisions()
 	{
-		Debug.Log("Disable");
 		foreach (Collision collision in collisionScripts[parent.name])
 		{
 			collision.enabled = false;

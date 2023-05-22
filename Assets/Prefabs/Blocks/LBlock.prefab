@@ -146,6 +146,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: kostka2 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2151746318917185903, guid: 7e3439abb35c63445914609684f49146, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e3439abb35c63445914609684f49146, type: 3}
 --- !u!4 &2206236316012535543 stripped
@@ -219,6 +223,10 @@ PrefabInstance:
     - target: {fileID: 2151746318917185903, guid: 7e3439abb35c63445914609684f49146, type: 3}
       propertyPath: m_Name
       value: kostka2 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151746318917185903, guid: 7e3439abb35c63445914609684f49146, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e3439abb35c63445914609684f49146, type: 3}
@@ -294,6 +302,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: kostka2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2151746318917185903, guid: 7e3439abb35c63445914609684f49146, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e3439abb35c63445914609684f49146, type: 3}
 --- !u!4 &9056260662620133580 stripped
@@ -367,6 +379,10 @@ PrefabInstance:
     - target: {fileID: 2151746318917185903, guid: 7e3439abb35c63445914609684f49146, type: 3}
       propertyPath: m_Name
       value: kostka2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151746318917185903, guid: 7e3439abb35c63445914609684f49146, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e3439abb35c63445914609684f49146, type: 3}
