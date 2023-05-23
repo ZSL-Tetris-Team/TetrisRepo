@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -13,8 +14,11 @@ public class GameManager : Singelton<GameManager>
         WaitForBlock,
         Lost
     }
+	private States state;
     public GameObject board;
+	private GameObject fallingBlockPrefab;
     private List<GameObject> blocks = new();
+	private List<GameObject> heldedBlocks = new();
     public PrefabManager PrefabManager { get; private set; }
     public ConstSettingsManager ConstSettingsManager { get; private set; }
     public int FloorMask { get; private set; }
@@ -31,18 +35,33 @@ public class GameManager : Singelton<GameManager>
 	}
 	private void Start()
 	{
-        enabled = false;
 		SwitchState(States.InstantiateBlock);
 	}
 	private void Update()
 	{
-		InvokeOnGameRestart();
+		switch (state)
+		{
+			case States.InstantiateBlock:
+
+				break;
+			case States.WaitForBlock:
+
+				HandleHoldingBlocks();
+
+				break;
+			case States.Lost:
+
+				InvokeOnGameRestart();
+
+				break;
+		}
 	}
 	private void SwitchState(States state)
     {
         switch (state)
         {
             case States.InstantiateBlock:
+				this.state = States.InstantiateBlock;
 
 				if (FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 1)
 				{
@@ -56,6 +75,7 @@ public class GameManager : Singelton<GameManager>
 
                 break;
             case States.WaitForBlock:
+				this.state = States.WaitForBlock;
 
                 Debug.Log("WaitForBlock");
 				Debug.Log(FullLineHandler.GetHighestHeight());
@@ -63,21 +83,33 @@ public class GameManager : Singelton<GameManager>
 
 				break;
             case States.Lost:
+				this.state = States.Lost;
 
                 Debug.Log("Lost");
 				
 				ResetGame();
 				EventManager.OnGameOver.Invoke();
-				enabled = true;
 
 				break;
         }
     }
+	private void HandleHoldingBlocks()
+	{
+		if (InputManager.Instance.GetHoldPiece())
+		{
+			Destroy(blocks.Last());
+			
+			heldedBlocks.Add(fallingBlockPrefab);
+			EventManager.OnHeldedBlocksChange.Invoke(heldedBlocks);
+			EventManager.OnDisableAllBlocks.Invoke();
+
+			SwitchState(States.InstantiateBlock);
+		}
+	}
 	private void InvokeOnGameRestart()
 	{
 		if (InputManager.Instance.GetTryAgain())
 		{
-			enabled = false;
 			EventManager.OnGameRestart.Invoke();
 			SwitchState(States.InstantiateBlock);
 		}
@@ -92,16 +124,17 @@ public class GameManager : Singelton<GameManager>
 	}
 	private void InstantiateBlock()
     {
-		float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 20.5f : 18.5f; 
+		float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 21.5f : 18.5f;
 
-        GameObject block = Instantiate(DrawBlock());
-        block.name += BlocksCount++;
-        block.transform.position = board.transform.position + new Vector3(-0.5f, y, 0);
+		GameObject block = Instantiate(DrawBlock());
+		block.name += BlocksCount++;
+		block.transform.position = board.transform.position + new Vector3(-0.5f, y, 0);
 
 		blocks.Add(block);
 	}
     private GameObject DrawBlock()
     {
-        return PrefabManager.Blocks[new System.Random().Next(PrefabManager.Blocks.Length - 1)];
+		fallingBlockPrefab = PrefabManager.Blocks[new System.Random().Next(PrefabManager.Blocks.Length - 1)];
+		return fallingBlockPrefab;
     }
 }

@@ -100,7 +100,7 @@ public class Collision : MonoBehaviour
 				rayLength = hit.distance;
 			}
 		}
-		float distanceToParent = parent.transform.position.y - finalCollision.transform.TransformPoint(finalCollision.col.center).y + 0.5f;
+		float distanceToParent = parent.transform.position.y - finalCollision.transform.TransformPoint(finalCollision.col.center).y - 0.5f;
 		return new Vector3(parent.transform.position.x, finalHit.point.y + finalCollision.col.size.y * 0.5f + distanceToParent, parent.transform.position.z);
 	}
 	#endregion
@@ -123,7 +123,7 @@ public class Collision : MonoBehaviour
 
 			if (Physics.Raycast(ray, out RaycastHit hit, 0.9f, GameManager.Instance.WallMask))
 			{
-				Debug.Log("Wall true");
+				//Debug.Log("Wall true");
 				isWallRight = dotRight == 1;
 				return true;
 			}
@@ -139,7 +139,7 @@ public class Collision : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit, 0.9f, GameManager.Instance.FloorMask))
 			{
-				Debug.Log("Floor true");
+				//Debug.Log("Floor true");
 				return true;
 			}
 		}
@@ -154,20 +154,19 @@ public class Collision : MonoBehaviour
 	{
 		foreach (Collision collision in collisionScripts[parent.name])
 		{
-			
 			collision.enabled = false;
 			collision.GetComponent<BoxCollider>().enabled = true;
 		}
 	}
 	private void DrawRays()
 	{
-		foreach (Ray ray in RaysToCast)
-		{
-			if (Vector3.Dot(ray.direction, Vector3.right) != 1 &&
-				Vector3.Dot(ray.direction, Vector3.left) != 1) continue;
+		//foreach (Ray ray in RaysToCast)
+		//{
+		//	if (Vector3.Dot(ray.direction, Vector3.right) != 1 &&
+		//		Vector3.Dot(ray.direction, Vector3.left) != 1) continue;
 
-			Debug.DrawRay(ray.origin, ray.direction * 0.9f, Color.green);
-		}
+		//	Debug.DrawRay(ray.origin, ray.direction * 0.9f, Color.green);
+		//}
 
 		foreach (Ray ray in RaysToCast)
 		{
