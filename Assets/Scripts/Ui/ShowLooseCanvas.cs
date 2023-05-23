@@ -12,7 +12,6 @@ public class ShowLooseCanvas : MonoBehaviour
 	}
 	private void ToggleVisibility()
 	{
-		Debug.Log("toogle");
 		gameObject.SetActive(!gameObject.activeInHierarchy);
 	}
 }

@@ -5,10 +5,12 @@ using UnityEngine;
 public static class EventManager
 {
 	//Initialization events
-	public static Event OnGameManagerDependeciesLoaded = new();
+	public static readonly Event OnGameManagerDependeciesLoaded = new();
 
 	//Update events
-	public static Event OnBlockFloorCollision = new();
-	public static Event OnGameOver = new();
-	public static Event OnGameRestart = new();
+	public static readonly Event OnBlockFloorCollision = new();
+	public static readonly Event OnDisableAllBlocks = new();
+	public static readonly Event OnGameOver = new();
+	public static readonly Event OnGameRestart = new();
+	public static readonly Event<List<GameObject>> OnHeldedBlocksChange = new();
 }

@@ -14,7 +14,7 @@ public class BlocksMovement : MonoBehaviour
 	private float verticalDistanceToTravel = 0;
 	private float hardDropDistanceToTravel = 0;
 	private float horizontalSpeed;
-	private float hardDripSpeed;
+	private float hardDropSpeed;
 
 	//Metoda Awake jest dziedziczona z MonoBehaviour i jest wywo³ywana raz po za³adowaniu instancji tej klasy czyli po ztworzeniu GameObjectu z
 	//tym skryptem
@@ -25,8 +25,9 @@ public class BlocksMovement : MonoBehaviour
 		inputManager = InputManager.Instance;
 		csm = GameManager.Instance.ConstSettingsManager;
 		horizontalSpeed = csm.HorizontalBlockSpeed;
-		hardDripSpeed = csm.HardDropBlockSpeed;
+		hardDropSpeed = csm.HardDropBlockSpeed;
 		EventManager.OnBlockFloorCollision.AddListener(Disable);
+		EventManager.OnDisableAllBlocks.AddListener(Disable);
 		//EventManager.OnCubeFall.AddListener(OnCubeFall);
 	}
 	private void Start()
@@ -46,6 +47,7 @@ public class BlocksMovement : MonoBehaviour
 	private void OnDestroy()
 	{
 		EventManager.OnBlockFloorCollision.RemoveListener(Disable);
+		EventManager.OnDisableAllBlocks.RemoveListener(Disable);
 		timer.ResetTimer();
 	}
 	private void Disable()
@@ -113,10 +115,20 @@ public class BlocksMovement : MonoBehaviour
 		if (inputManager.GetRotateRight())
 		{
 			transform.Rotate(new Vector3(0, 0, -90));
+
+			if (WallClipping.IsWallClipping(gameObject.name))
+			{
+				transform.Rotate(new Vector3(0, 0, 90));
+			}
 		}
 		if (inputManager.GetRotateLeft())
 		{
 			transform.Rotate(new Vector3(0, 0, 90));
+
+			if (WallClipping.IsWallClipping(gameObject.name))
+			{
+				transform.Rotate(new Vector3(0, 0, -90));
+			}
 		}
 	}
 	private void HandleSoftDrop()
