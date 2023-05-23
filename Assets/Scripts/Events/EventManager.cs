@@ -13,4 +13,5 @@ public static class EventManager
 	public static readonly Event OnGameOver = new();
 	public static readonly Event OnGameRestart = new();
 	public static readonly Event<List<GameObject>> OnHeldedBlocksChange = new();
+	public static readonly Event<uint> OnScoreChange = new();
 }

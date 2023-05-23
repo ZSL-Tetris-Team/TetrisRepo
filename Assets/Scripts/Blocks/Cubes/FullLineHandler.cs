@@ -100,7 +100,7 @@ public class FullLineHandler : MonoBehaviour
 			if (IsLineFull(height))
 			{
 				GameManager.Instance.AddScore(GameManager.Instance.ConstSettingsManager.FullLineValue);
-
+			
 				foreach (var lineHander in lineHandlerScripts.Where(lineScript => lineScript.Height == height).ToList())
 				{
 					Destroy(lineHander.gameObject);

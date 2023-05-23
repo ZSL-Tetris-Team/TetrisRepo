@@ -22,7 +22,7 @@ public class GameManager : Singelton<GameManager>
 	public void AddScore(uint amount)
 	{
 		Score += amount;
-		Debug.Log(Score);
+		EventManager.OnScoreChange.Invoke(Score);
 	}
 
     private GameObject fallingBlockPrefab;
@@ -35,12 +35,14 @@ public class GameManager : Singelton<GameManager>
 
 	public PrefabManager PrefabManager { get; private set; }
     public ConstSettingsManager ConstSettingsManager { get; private set; }
+    public LocalDataManager LocalDataManager { get; private set; }
     private void Awake()
     {
         FloorMask = LayerMask.GetMask("FloorLayer", "CubeLayer");
         WallMask = LayerMask.GetMask("WallLayer", "CubeLayer");
         PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
         ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
+		LocalDataManager = Resources.Load<LocalDataManager>("LocalDataManager");
         EventManager.OnBlockFloorCollision.AddListener(() => {
 			int cubesCount = blocks.Last().GetComponentsInChildren<Transform>().Length - 1;
 			AddScore((uint)cubesCount * ConstSettingsManager.SingleCubeValue);
@@ -85,6 +87,7 @@ public class GameManager : Singelton<GameManager>
 				}
 
 				Debug.Log("InstantiateBlock");
+
 				float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 21.5f : 18.5f;
 				InstantiateBlock(DrawBlock(), new Vector3(0, y, 0));
                 SwitchState(States.WaitForBlock);
@@ -102,7 +105,8 @@ public class GameManager : Singelton<GameManager>
 				this.state = States.Lost;
 
                 Debug.Log("Lost");
-				
+
+				LocalDataManager.Scores.Add(Score);
 				ResetGame();
 				EventManager.OnGameOver.Invoke();
 
