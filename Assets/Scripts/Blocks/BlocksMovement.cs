@@ -15,6 +15,7 @@ public class BlocksMovement : MonoBehaviour
 	private float hardDropDistanceToTravel = 0;
 	private float horizontalSpeed;
 	private float hardDropSpeed;
+	private CollisionResult colResult;
 
 	//Metoda Awake jest dziedziczona z MonoBehaviour i jest wywo³ywana raz po za³adowaniu instancji tej klasy czyli po ztworzeniu GameObjectu z
 	//tym skryptem
@@ -41,8 +42,12 @@ public class BlocksMovement : MonoBehaviour
 		RotationalMovement();
 		HandleSoftDrop();
 		HandleHardDrop();
-		HandleDistanceToTravel();
 		VerticalMovementCollision();
+	}
+	private void FixedUpdate()
+	{
+		colResult = Collision.IsNextToWall(gameObject.name);
+		HandleDistanceToTravel();
 	}
 	private void OnDestroy()
 	{
@@ -58,18 +63,18 @@ public class BlocksMovement : MonoBehaviour
 	{
 		if (horizontalDistanceToTravelRight > 0)
 		{
-			transform.position += new Vector3(Time.deltaTime * horizontalSpeed, 0, 0);
-			horizontalDistanceToTravelRight -= Time.deltaTime * horizontalSpeed;
+			transform.position += new Vector3(horizontalSpeed, 0, 0);
+			horizontalDistanceToTravelRight -= horizontalSpeed;
 		}
 		if (horizontalDistanceToTravelLeft > 0)
 		{
-			transform.position += new Vector3(-Time.deltaTime * horizontalSpeed, 0, 0);
-			horizontalDistanceToTravelLeft -= Time.deltaTime * horizontalSpeed;
+			transform.position += new Vector3(-horizontalSpeed, 0, 0);
+			horizontalDistanceToTravelLeft -= horizontalSpeed;
 		}
 		if(verticalDistanceToTravel > 0)
 		{
-			transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
-			verticalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
+			transform.position += new Vector3(0, -horizontalSpeed, 0);
+			verticalDistanceToTravel -= horizontalSpeed;
 		}
 		if (horizontalDistanceToTravelLeft < 0)
 		{
@@ -81,6 +86,11 @@ public class BlocksMovement : MonoBehaviour
 			horizontalDistanceToTravelRight = 0;
 			transform.position = new Vector3((float)Math.Round(transform.position.x), transform.position.y, transform.position.z);
 		}
+		//if (verticalDistanceToTravel < 0)
+		//{
+		//	verticalDistanceToTravel = 0;
+		//	transform.position += new Vector3(0, (float)Math.Round(transform.position.y), 0);
+		//}
 		//if (hardDropDistanceToTravel > 0)
 		//{
 		//	transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
@@ -92,11 +102,15 @@ public class BlocksMovement : MonoBehaviour
 		Debug.Log("down");
 		verticalDistanceToTravel++;
 	}
+	private void OnCollisionEnter(UnityEngine.Collision collision)
+	{
+		horizontalDistanceToTravelLeft = 0;
+		horizontalDistanceToTravelRight = 0;
+	}
 	private void HorizontalMovement()
 	{
 		if (!inputManager.GetRight() && !inputManager.GetLeft()) return;
 		
-		CollisionResult colResult = Collision.IsNextToWall(gameObject.name);
 		//Sprawdzam czy naciœniêty jest prawy przycisk i czy blok nie jest obok prawej œciany
 		bool collisionBoolRight = (colResult.IsColliding && !colResult.IsWallRight) || (!colResult.IsColliding);
 		bool collisionsBoolLeft = (colResult.IsColliding && colResult.IsWallRight) || (!colResult.IsColliding);

@@ -19,6 +19,7 @@ public class FullLineHandler : MonoBehaviour
 	[SerializeField] private float realHeight;
 	[SerializeField] private int _height;
 	[SerializeField] private bool isInvisible;
+	public bool permDisabled = false;
 	private int Height
 	{
 		get
@@ -56,14 +57,15 @@ public class FullLineHandler : MonoBehaviour
 	}
 	private void EnableLineHandler()
 	{
+		if (permDisabled) return;
 		enabled = true;
 	}
 	private void HandleDistanceToTravel()
 	{
 		if (verticalDistanceToTravel > 0)
 		{
-			transform.position += new Vector3(0, -Time.deltaTime * horizontalSpeed, 0);
-			verticalDistanceToTravel -= Time.deltaTime * horizontalSpeed;
+			transform.position += new Vector3(0, -horizontalSpeed, 0);
+			verticalDistanceToTravel -= horizontalSpeed;
 		}
 		if (verticalDistanceToTravel < 0)
 		{
@@ -73,7 +75,7 @@ public class FullLineHandler : MonoBehaviour
 	}
 	private static bool IsLineFull(int height)
 	{
-		int count = lineHandlerScripts.Where(lineScript => lineScript.Height == height && !lineScript.isInvisible).Count();
+		int count = lineHandlerScripts.Where(lineScript => lineScript.Height == height && lineScript.enabled).Count();
 		//Debug.Log($"Count: {count} | Height: {height}");
 		return count == GameManager.Instance.ConstSettingsManager.BoardWidth;
 	}
@@ -87,7 +89,7 @@ public class FullLineHandler : MonoBehaviour
 	}
 	public static int GetHighestHeight()
 	{
-		return lineHandlerScripts.Select(lineHandler => lineHandler.Height).OrderByDescending(number => number).FirstOrDefault();
+		return lineHandlerScripts.Where(lineHandler => lineHandler.enabled).Select(lineHandler => lineHandler.Height).OrderByDescending(number => number).FirstOrDefault();
 	}
 	public static void HandleDestroyingCubes()
 	{
@@ -97,6 +99,8 @@ public class FullLineHandler : MonoBehaviour
 		{
 			if (IsLineFull(height))
 			{
+				GameManager.Instance.AddScore(GameManager.Instance.ConstSettingsManager.FullLineValue);
+
 				foreach (var lineHander in lineHandlerScripts.Where(lineScript => lineScript.Height == height).ToList())
 				{
 					Destroy(lineHander.gameObject);

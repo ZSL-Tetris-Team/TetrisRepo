@@ -5,14 +5,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ConstSettingsManager", menuName = "ScriptableObjects/ConstSettingsManager")]
 public class ConstSettingsManager : ScriptableObject
 {
-    [SerializeField] private GameObject board;
-    [SerializeField][Range(0.1f, 1)] private float _fallTime = 1;
-    [SerializeField][Range(0.1f, 1)] private float _softDropFallTime = 0.5f;
-	[SerializeField]private int _boardWidth = 10;
+    [Header("Board")]
+	[SerializeField] private int _boardWidth = 10;
 	[SerializeField] private int _boardHeight = 20;
+
+    [Header("BlockMovement")]
+	[SerializeField][Range(0.1f, 1)] private float _fallTime = 1;
+    [SerializeField][Range(0.1f, 1)] private float _softDropFallTime = 0.5f;
     [SerializeField] private float _horizontalBlockSpeed = 6;
 	[SerializeField] private float _hardDropBlockSpeed = 6;
     [SerializeField] private float _verticalBlockFallSpeed = 10;
+
+    [Header("Score")]
+    [SerializeField] private uint _fullLineValue = 100;
+    [SerializeField] private uint _singleCubeValue = 10;
 
 	public float FallTime
     {
@@ -46,8 +52,6 @@ public class ConstSettingsManager : ScriptableObject
         get => _verticalBlockFallSpeed; 
         set => _verticalBlockFallSpeed = value; 
     }
-	public GameObject Board { 
-        get => board;
-        set => board = value; 
-    }
+	public uint FullLineValue { get => _fullLineValue; private set => _fullLineValue = value; }
+	public uint SingleCubeValue { get => _singleCubeValue; private set => _singleCubeValue = value; }
 }
