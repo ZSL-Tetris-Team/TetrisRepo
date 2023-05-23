@@ -70,7 +70,10 @@ public class Collision : MonoBehaviour
 		foreach (Collision collision in collisionScripts[parentName])
 		{
 			//Debug.Log("Wall: " + collision.isNextToWallCube);
-			if (collision.WallCheck()) return new CollisionResult(true, collision.isWallRight);
+			if (collision.WallCheck()) 
+			{
+				return new CollisionResult(true, collision.isWallRight);
+			}
 		}
 		return new CollisionResult(false, false);
 	}
@@ -80,7 +83,10 @@ public class Collision : MonoBehaviour
 		foreach (Collision collision in collisionScripts[parentName])
 		{
 			//Debug.Log("Floor: " + collision.isNextToWallCube);
-			if (collision.isNextToFloor) return true;
+			if (collision.isNextToFloor)
+			{
+				return true;
+			}
 		}
 		return false;
 	}
@@ -89,7 +95,7 @@ public class Collision : MonoBehaviour
 		Collision finalCollision = collisionScripts[parent.name][0];
 		RaycastHit finalHit = finalCollision.GetBottomPoint();
 		float rayLength = finalHit.distance;
-
+	
 		foreach (Collision collision in collisionScripts[parent.name])
 		{
 			RaycastHit hit = collision.GetBottomPoint();

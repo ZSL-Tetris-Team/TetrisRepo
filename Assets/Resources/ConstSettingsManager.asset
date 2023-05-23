@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f77ba5552bae2d4e96f1fb921a2f4fb, type: 3}
   m_Name: ConstSettingsManager
   m_EditorClassIdentifier: 
+  board: {fileID: 0}
   _fallTime: 1
   _softDropFallTime: 0.2
   _boardWidth: 10
   _boardHeight: 20
-  _horizontalBlockSpeed: 10
+  _horizontalBlockSpeed: 0.15
   _hardDropBlockSpeed: 30
-  _verticalBlockFallSpeed: 5
+  _verticalBlockFallSpeed: 0.05
