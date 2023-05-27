@@ -10,6 +10,6 @@ public class BestScoreDisplayer : MonoBehaviour
 	private void Awake()
 	{
 		_textMeshPro = GetComponent<TextMeshProUGUI>();
-		_textMeshPro.text = "BEST SCORE: " + GameManager.Instance.LocalDataManager.Scores.OrderByDescending(num => num).FirstOrDefault();
+		_textMeshPro.text = "BEST SCORE: " + Scores.GetHighest();
 	}
 }

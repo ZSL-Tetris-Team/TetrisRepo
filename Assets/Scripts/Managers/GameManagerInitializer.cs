@@ -11,6 +11,5 @@ public class GameManagerInitializer : MonoBehaviour
 	{
 		gameManager = GameManager.Instance;
 		gameManager.board = board;
-		gameManager.blocks = new List<GameObject>();
 	}
 }

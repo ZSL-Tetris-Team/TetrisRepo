@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7b28eb35dfeef4796e903105bef287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ealPosition: {x: 0, y: 0, z: 0}
+  realPosition: {x: 0, y: 0, z: 0}
   realHeight: 0
   _height: 0
   isInvisible: 0

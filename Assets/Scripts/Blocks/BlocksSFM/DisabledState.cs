@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class DisabledState : BlockState
 {
+	private BlockFSMBase FSMBase;
+
 	private GameManager gameManager;
 	private ConstSettingsManager csm;
 	public override void Start(BlockFSMBase b)
 	{
 		Debug.Log(b.gameObject.name + ": DisabledState");
 
+		FSMBase = b;
+
 		gameManager = b.GameManager;
 		csm = gameManager.ConstSettingsManager;
 
-		foreach (var renderer in b.GetComponentsInChildren<Renderer>())
+		AssignTransparentMaterial();
+		DisableFullLineScripts();
+		DisableBoxColliders();
+	}
+	private void AssignTransparentMaterial()
+	{
+		foreach (var renderer in FSMBase.GetComponentsInChildren<Renderer>())
 		{
 			List<Material> newMatirials = new();
 
@@ -33,15 +43,20 @@ public class DisabledState : BlockState
 
 			renderer.sharedMaterials = newMatirials.ToArray();
 		}
-
-		foreach (var lineHandler in b.GetComponentsInChildren<FullLineHandler>())
+	}
+	private void DisableFullLineScripts()
+	{
+		foreach (var lineHandler in FSMBase.GetComponentsInChildren<FullLineHandler>())
 		{
 			lineHandler.PermDisabled = true;
 		}
-
-		foreach (var col in b.GetComponentsInChildren<BoxCollider>())
+	}
+	private void DisableBoxColliders()
+	{
+		foreach (var col in FSMBase.GetComponentsInChildren<BoxCollider>())
 		{
 			col.enabled = false;
 		}
 	}
+
 }

@@ -32,7 +32,6 @@ public class BlockFSMBase : MonoBehaviour
 			currStateName = currState.ToString();
 		}
 	}
-
 	private void Awake()
 	{
 		Col = GetComponent<BoxCollider>();

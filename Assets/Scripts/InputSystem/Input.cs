@@ -64,15 +64,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SoftDropHold"",
-                    ""type"": ""Value"",
-                    ""id"": ""dcf89304-8db1-48f9-bfc1-d5a5aedfdbc7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""HardDrop"",
                     ""type"": ""Button"",
                     ""id"": ""5193b32f-a91f-472f-9d87-b3d37fed2edc"",
@@ -98,6 +89,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SoftDropHold"",
+                    ""type"": ""Value"",
+                    ""id"": ""dcf89304-8db1-48f9-bfc1-d5a5aedfdbc7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""SoftDropDown"",
@@ -156,17 +156,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c3f7a106-2582-4097-aa5c-385e73a2f348"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": ""Hold(duration=1.401298E-45)"",
-                    ""processors"": """",
-                    ""groups"": ""Blocks"",
-                    ""action"": ""SoftDropHold"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4e29512a-c34a-493e-81b2-010da6f1e7ae"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -191,7 +180,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""decd79cb-3b7b-46b8-af0d-179c250f9470"",
                     ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": ""Press(pressPoint=1,behavior=1)"",
                     ""processors"": """",
                     ""groups"": ""Blocks"",
                     ""action"": ""SoftDropUp"",
@@ -202,10 +191,21 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""5681efad-cb50-4c7e-87b7-6e17f5af0b17"",
                     ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press(pressPoint=1.401298E-45)"",
                     ""processors"": """",
                     ""groups"": ""Blocks"",
                     ""action"": ""SoftDropDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3f7a106-2582-4097-aa5c-385e73a2f348"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": ""Hold(duration=1.401298E-45,pressPoint=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Blocks"",
+                    ""action"": ""SoftDropHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -254,10 +254,10 @@ public partial class @Input : IInputActionCollection2, IDisposable
         m_Blocks_Left = m_Blocks.FindAction("Left", throwIfNotFound: true);
         m_Blocks_RotateLeft = m_Blocks.FindAction("RotateLeft", throwIfNotFound: true);
         m_Blocks_RotateRight = m_Blocks.FindAction("RotateRight", throwIfNotFound: true);
-        m_Blocks_SoftDropHold = m_Blocks.FindAction("SoftDropHold", throwIfNotFound: true);
         m_Blocks_HardDrop = m_Blocks.FindAction("HardDrop", throwIfNotFound: true);
         m_Blocks_HoldPiece = m_Blocks.FindAction("HoldPiece", throwIfNotFound: true);
         m_Blocks_SoftDropUp = m_Blocks.FindAction("SoftDropUp", throwIfNotFound: true);
+        m_Blocks_SoftDropHold = m_Blocks.FindAction("SoftDropHold", throwIfNotFound: true);
         m_Blocks_SoftDropDown = m_Blocks.FindAction("SoftDropDown", throwIfNotFound: true);
         // Ui
         m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
@@ -325,10 +325,10 @@ public partial class @Input : IInputActionCollection2, IDisposable
     private readonly InputAction m_Blocks_Left;
     private readonly InputAction m_Blocks_RotateLeft;
     private readonly InputAction m_Blocks_RotateRight;
-    private readonly InputAction m_Blocks_SoftDropHold;
     private readonly InputAction m_Blocks_HardDrop;
     private readonly InputAction m_Blocks_HoldPiece;
     private readonly InputAction m_Blocks_SoftDropUp;
+    private readonly InputAction m_Blocks_SoftDropHold;
     private readonly InputAction m_Blocks_SoftDropDown;
     public struct BlocksActions
     {
@@ -338,10 +338,10 @@ public partial class @Input : IInputActionCollection2, IDisposable
         public InputAction @Left => m_Wrapper.m_Blocks_Left;
         public InputAction @RotateLeft => m_Wrapper.m_Blocks_RotateLeft;
         public InputAction @RotateRight => m_Wrapper.m_Blocks_RotateRight;
-        public InputAction @SoftDropHold => m_Wrapper.m_Blocks_SoftDropHold;
         public InputAction @HardDrop => m_Wrapper.m_Blocks_HardDrop;
         public InputAction @HoldPiece => m_Wrapper.m_Blocks_HoldPiece;
         public InputAction @SoftDropUp => m_Wrapper.m_Blocks_SoftDropUp;
+        public InputAction @SoftDropHold => m_Wrapper.m_Blocks_SoftDropHold;
         public InputAction @SoftDropDown => m_Wrapper.m_Blocks_SoftDropDown;
         public InputActionMap Get() { return m_Wrapper.m_Blocks; }
         public void Enable() { Get().Enable(); }
@@ -364,9 +364,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @RotateRight.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
                 @RotateRight.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
                 @RotateRight.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
-                @SoftDropHold.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
-                @SoftDropHold.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
-                @SoftDropHold.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
                 @HardDrop.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
                 @HardDrop.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
                 @HardDrop.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
@@ -376,6 +373,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @SoftDropUp.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
                 @SoftDropUp.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
                 @SoftDropUp.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
+                @SoftDropHold.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
+                @SoftDropHold.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
+                @SoftDropHold.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
                 @SoftDropDown.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
                 @SoftDropDown.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
                 @SoftDropDown.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
@@ -395,9 +395,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @RotateRight.started += instance.OnRotateRight;
                 @RotateRight.performed += instance.OnRotateRight;
                 @RotateRight.canceled += instance.OnRotateRight;
-                @SoftDropHold.started += instance.OnSoftDropHold;
-                @SoftDropHold.performed += instance.OnSoftDropHold;
-                @SoftDropHold.canceled += instance.OnSoftDropHold;
                 @HardDrop.started += instance.OnHardDrop;
                 @HardDrop.performed += instance.OnHardDrop;
                 @HardDrop.canceled += instance.OnHardDrop;
@@ -407,6 +404,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @SoftDropUp.started += instance.OnSoftDropUp;
                 @SoftDropUp.performed += instance.OnSoftDropUp;
                 @SoftDropUp.canceled += instance.OnSoftDropUp;
+                @SoftDropHold.started += instance.OnSoftDropHold;
+                @SoftDropHold.performed += instance.OnSoftDropHold;
+                @SoftDropHold.canceled += instance.OnSoftDropHold;
                 @SoftDropDown.started += instance.OnSoftDropDown;
                 @SoftDropDown.performed += instance.OnSoftDropDown;
                 @SoftDropDown.canceled += instance.OnSoftDropDown;
@@ -462,10 +462,10 @@ public partial class @Input : IInputActionCollection2, IDisposable
         void OnLeft(InputAction.CallbackContext context);
         void OnRotateLeft(InputAction.CallbackContext context);
         void OnRotateRight(InputAction.CallbackContext context);
-        void OnSoftDropHold(InputAction.CallbackContext context);
         void OnHardDrop(InputAction.CallbackContext context);
         void OnHoldPiece(InputAction.CallbackContext context);
         void OnSoftDropUp(InputAction.CallbackContext context);
+        void OnSoftDropHold(InputAction.CallbackContext context);
         void OnSoftDropDown(InputAction.CallbackContext context);
     }
     public interface IUiActions

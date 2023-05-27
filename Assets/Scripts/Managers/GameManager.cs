@@ -28,10 +28,10 @@ public class GameManager : Singelton<GameManager>
 
     private GameObject fallingBlockPrefab;
 	private GameObject ghostBlock;
-    public List<GameObject> blocks = new();
+    private List<GameObject> blocks = new();
 	private List<GameObject> heldedBlocks = new();
 	private bool isLineFalling;
-	public int BlocksCount { get; private set; } = 0;
+	public int BlocksCount { get; private set; }
 	public int FloorMask { get; private set; }
 	public int WallMask { get; private set; }
 
@@ -45,8 +45,6 @@ public class GameManager : Singelton<GameManager>
 
         PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
         ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
-		LocalDataManager = Resources.Load<LocalDataManager>("LocalDataManager");
-
        
 		EventManager.Instance.OnLineStartFalling.AddListener(() => { isLineFalling = true; });
 		EventManager.Instance.OnLineFallen.AddListener(() => { isLineFalling = false; });
@@ -97,7 +95,7 @@ public class GameManager : Singelton<GameManager>
 
                 Debug.Log("Lost");
 
-				LocalDataManager.Scores.Add(Score);
+				Scores.AddScore(Score);
 				ResetGame();
 				EventManager.Instance.OnGameOver.Invoke();
 
@@ -148,7 +146,6 @@ public class GameManager : Singelton<GameManager>
 
 			Debug.Log("GhostInstantiated: " + ghostBlock.name);
 
-			Debug.Log(blocks.Count);
 			BlockFSMBase b = ghostBlock.GetComponent<BlockFSMBase>();
 			EventManager.Instance.OnBlockFloorCollision.AddListener(() => {
 
@@ -217,7 +214,6 @@ public class GameManager : Singelton<GameManager>
 
 		blocks.Add(block);
 
-		Debug.Log(blocks.Count);
 		Debug.Log("Instantiated: " + block.name);
 
 		BlockFSMBase b = block.GetComponent<BlockFSMBase>();

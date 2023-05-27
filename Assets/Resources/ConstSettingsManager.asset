@@ -15,10 +15,10 @@ MonoBehaviour:
   _boardWidth: 10
   _boardHeight: 20
   _fallTime: 1
-  _softDropFallTime: 0.2
+  _softDropFallTime: 0.1
   _horizontalBlockSpeed: 0.15
   _hardDropBlockSpeed: 30
-  _verticalBlockSpeed: 0.15
+  _verticalBlockSpeed: 0.3
   _fullLineValue: 100
   _singleCubeValue: 10
   _transparentMaterial: {fileID: 2100000, guid: bb88120bc918ed84b82e40ddaef134dd, type: 2}

@@ -38,7 +38,6 @@ public class FallingState : BlockState
 
 		EventManager.Instance.OnBlockFloorCollision.AddListener(SwitchToWaiting);
 
-		
 		DisableCubesColliders();
 		b.GetComponent<BoxCollider>().enabled = true;
 
@@ -54,6 +53,7 @@ public class FallingState : BlockState
 	}
 	public override void FixedUpdate(BlockFSMBase b)
 	{
+		//Distance to travel is used to make the smooth movement effect
 		HandleDistanceToTravel();
 	}
 	public override void Exit(BlockFSMBase b)
@@ -64,6 +64,7 @@ public class FallingState : BlockState
 	{
 		EventManager.Instance.OnBlockFloorCollision.RemoveListener(SwitchToWaiting);
 	}
+	//This makes sure that the block will not clip through the wall if the move key has been spammed
 	public override void OnCollisionEnter(UnityEngine.Collision collision)
 	{
 		horizontalDistanceToTravelLeft = 0;
@@ -139,14 +140,16 @@ public class FallingState : BlockState
 		}
 		if (inputManager.GetSoftDropUp())
 		{
-			timer.TimeLeft = csm.FallTime * 0.5f;
+			timer.ResetTimer();
+			verticalDistanceToTravel = verticalDistanceToTravel % 1;
+			timer.TimeLeft = csm.FallTime;
+			timer.StartTimer(VerticalMovement);
 		}
 	}
 	private void HandleHardDrop()
 	{
 		if (inputManager.GetHardDrop())
 		{
-			//hardDropDistanceToTravel += Mathf.Abs(Collision.GetClosestBottomPoint(gameObject).y - transform.position.y) - 1;
 			trans.position = Collision.GetClosestBottomPoint(gameObject);
 			EventManager.Instance.OnBlockFloorCollision.Invoke();
 		}
@@ -154,8 +157,9 @@ public class FallingState : BlockState
 	private void VerticalMovementCollision()
 	{
 		if (!FSMBase.enabled) return;
-		if (Collision.IsNextToFloor(gameObject.name) && verticalDistanceToTravel <= 0 && horizontalDistanceToTravelRight <= 0 && horizontalDistanceToTravelLeft <= 0)
+		if (Collision.IsNextToFloor(gameObject.name) && horizontalDistanceToTravelRight <= 0 && horizontalDistanceToTravelLeft <= 0)
 		{
+			trans.position = new Vector3(trans.position.x, (float)Math.Round(trans.position.y), trans.position.z);
 			Debug.Log(gameObject.name + ": onfloorcollision");
 			EventManager.Instance.OnBlockFloorCollision.Invoke();
 		}

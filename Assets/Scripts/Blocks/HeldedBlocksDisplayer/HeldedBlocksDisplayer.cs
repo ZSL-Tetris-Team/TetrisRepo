@@ -20,10 +20,8 @@ public class HeldedBlocksDisplayer : MonoBehaviour
 		if (blocks.Count - 1 < listIndexToDisplay) return;
 
 		displayedBlock = Instantiate(blocks[listIndexToDisplay]);
-		foreach(var lineHandler in displayedBlock.GetComponentsInChildren<FullLineHandler>())
-		{
-			lineHandler.PermDisabled = true;
-		}
+		var b = displayedBlock.GetComponent<BlockFSMBase>();
+		b.StartBlock(b.DisabledState);
 		displayedBlock.transform.position = transform.position;
 	}
 }

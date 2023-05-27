@@ -7,15 +7,25 @@ using UnityEngine;
 
 public class WaitingState : BlockState
 {
+	private BlockFSMBase FSMBase;
 	public override void Start(BlockFSMBase b)
 	{
 		Debug.Log(b.gameObject.name + ": WaitingState");
+		FSMBase = b;
 
-		foreach(var col in b.GetComponentsInChildren<BoxCollider>())
+		DisableBoxColliders();
+		DisableFullLineScripts();
+	}
+	private void DisableBoxColliders()
+	{
+		foreach (var col in FSMBase.GetComponentsInChildren<BoxCollider>())
 		{
 			col.enabled = true;
 		}
-		foreach(var lineHandler in b.GetComponentsInChildren<FullLineHandler>())
+	}
+	private void DisableFullLineScripts()
+	{
+		foreach (var lineHandler in FSMBase.GetComponentsInChildren<FullLineHandler>())
 		{
 			lineHandler.PermDisabled = false;
 		}
