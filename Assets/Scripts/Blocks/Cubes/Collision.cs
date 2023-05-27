@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Collision : MonoBehaviour
@@ -13,7 +14,6 @@ public class Collision : MonoBehaviour
 	private static readonly Dictionary<string, List<Collision>> collisionScripts = new();
 
 	[SerializeField] private GameObject parent;
-	private bool isNextToFloor = false;
 	private BoxCollider col;
 
 	private bool isWallRight = false;
@@ -40,9 +40,6 @@ public class Collision : MonoBehaviour
 	private void Awake()
 	{
 		col = GetComponent<BoxCollider>();
-		col.enabled = false;
-
-		EventManager.OnBlockFloorCollision.AddListener(DisableAllCollisions);
 	}
 	private void Start()
 	{
@@ -53,13 +50,9 @@ public class Collision : MonoBehaviour
 	{
 		DrawRays();
 	}
-	private void FixedUpdate()
-	{
-		isNextToFloor = FloorCheck();
-	}
 	private void OnDestroy()
 	{
-		EventManager.OnBlockFloorCollision.RemoveListener(DisableAllCollisions);
+		EventManager.Instance.OnBlockFloorCollision.RemoveListener(DisableAllCollisions);
 		collisionScripts[parent.name].Remove(this);
 	}
 	//Moje metody
@@ -67,7 +60,7 @@ public class Collision : MonoBehaviour
 	public static CollisionResult IsNextToWall(string parentName)
 	{
 		if (!collisionScripts.ContainsKey(parentName)) return new CollisionResult(false, false);
-		foreach (Collision collision in collisionScripts[parentName])
+		foreach (Collision collision in collisionScripts[parentName].Where(collision => collision.enabled).ToArray())
 		{
 			//Debug.Log("Wall: " + collision.isNextToWallCube);
 			if (collision.WallCheck()) 
@@ -80,10 +73,10 @@ public class Collision : MonoBehaviour
 	public static bool IsNextToFloor(string parentName)
 	{
 		if(!collisionScripts.ContainsKey(parentName)) return false;
-		foreach (Collision collision in collisionScripts[parentName])
+		foreach (Collision collision in collisionScripts[parentName].Where(collision => collision.enabled).ToArray())
 		{
 			//Debug.Log("Floor: " + collision.isNextToWallCube);
-			if (collision.isNextToFloor)
+			if (collision.FloorCheck())
 			{
 				return true;
 			}
@@ -145,7 +138,7 @@ public class Collision : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit, 0.9f, GameManager.Instance.FloorMask))
 			{
-				//Debug.Log("Floor true");
+				//Debug.Log(parent.name + " Floor true");
 				return true;
 			}
 		}
@@ -157,7 +150,8 @@ public class Collision : MonoBehaviour
 		return hit;
 	}
 	private void DisableAllCollisions()
-	{
+	{	
+		if (!enabled) return;
 		foreach (Collision collision in collisionScripts[parent.name])
 		{
 			collision.enabled = false;

@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2549469796775134204}
-  - component: {fileID: 181340144674533838}
-  - component: {fileID: 68567505853217521}
-  - component: {fileID: 4649253889719727416}
+  - component: {fileID: -7488610662817502114}
+  - component: {fileID: -695725260973487020}
+  - component: {fileID: -8213117262265123329}
   m_Layer: 0
   m_Name: TBlock
   m_TagString: Untagged
@@ -38,7 +38,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &181340144674533838
+--- !u!114 &-7488610662817502114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,10 +47,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2549469796775134207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1e53b98dbafb84387551a85705e363, type: 3}
+  m_Script: {fileID: 11500000, guid: 30e953eaef1ff96489b76ee2fec8a36b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &68567505853217521
+  currStateName: 
+--- !u!65 &-695725260973487020
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,7 +64,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 2, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!54 &4649253889719727416
+--- !u!54 &-8213117262265123329
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

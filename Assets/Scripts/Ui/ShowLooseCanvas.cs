@@ -6,8 +6,8 @@ public class ShowLooseCanvas : MonoBehaviour
 {
 	private void Awake()
 	{
-		EventManager.OnGameOver.AddListener(ToggleVisibility);
-		EventManager.OnGameRestart.AddListener(ToggleVisibility);
+		EventManager.Instance.OnGameOver.AddListener(ToggleVisibility);
+		EventManager.Instance.OnGameRestart.AddListener(ToggleVisibility);
 		gameObject.SetActive(false);
 	}
 	private void ToggleVisibility()

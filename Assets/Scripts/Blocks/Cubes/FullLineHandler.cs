@@ -13,19 +13,28 @@ public class FullLineHandler : MonoBehaviour
 	private GameManager gameManager;
 	private ConstSettingsManager csm;
 	private BoxCollider col;
-	private float horizontalSpeed;
+	private float verticalSpeed;
 	private float verticalDistanceToTravel = 0;
-	[SerializeField] private Vector3 ealPosition;
+	[SerializeField] private Vector3 realPosition;
 	[SerializeField] private float realHeight;
 	[SerializeField] private int _height;
 	[SerializeField] private bool isInvisible;
-	public bool permDisabled = false;
-	private int Height
+	private bool _permDisabled;
+    public bool PermDisabled 
+	{ 
+		get => _permDisabled; 
+		set 
+		{
+			_permDisabled = value;
+			enabled = !value;
+		}
+	}
+    private int Height
 	{
 		get
 		{
 			Vector3 pos = transform.TransformPoint(col.center);
-			ealPosition = pos;
+			realPosition = pos;
 			realHeight = pos.y;
 
 			int height = (int)Math.Round(pos.y);
@@ -39,8 +48,8 @@ public class FullLineHandler : MonoBehaviour
 		col = GetComponent<BoxCollider>();
 		gameManager = GameManager.Instance;
 		csm = gameManager.ConstSettingsManager;
-		horizontalSpeed = csm.HorizontalBlockSpeed;
-		EventManager.OnBlockFloorCollision.AddListener(EnableLineHandler);
+		verticalSpeed = csm.VerticalBlockSpeed;
+		EventManager.Instance.OnBlockFloorCollision.AddListener(EnableLineHandler);
 	}
 	private void Start()
 	{
@@ -52,25 +61,27 @@ public class FullLineHandler : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
+		EventManager.Instance.OnBlockFloorCollision.RemoveListener(EnableLineHandler);
+		if (PermDisabled) return;
 		lineHandlerScripts.Remove(this);
-		EventManager.OnBlockFloorCollision.RemoveListener(EnableLineHandler);
 	}
 	private void EnableLineHandler()
 	{
-		if (permDisabled) return;
+		if (PermDisabled) return;
 		enabled = true;
 	}
 	private void HandleDistanceToTravel()
 	{
 		if (verticalDistanceToTravel > 0)
 		{
-			transform.position += new Vector3(0, -horizontalSpeed, 0);
-			verticalDistanceToTravel -= horizontalSpeed;
+			transform.position += new Vector3(0, -verticalSpeed, 0);
+			verticalDistanceToTravel -= verticalSpeed;
 		}
 		if (verticalDistanceToTravel < 0)
 		{
 			verticalDistanceToTravel = 0;
 			transform.position = new Vector3(transform.position.x, (float)Math.Round(transform.position.y), transform.position.z);
+			EventManager.Instance.OnLineFallen.Invoke();
 		}
 	}
 	private static bool IsLineFull(int height)
@@ -100,7 +111,8 @@ public class FullLineHandler : MonoBehaviour
 			if (IsLineFull(height))
 			{
 				GameManager.Instance.AddScore(GameManager.Instance.ConstSettingsManager.FullLineValue);
-			
+				EventManager.Instance.OnLineStartFalling.Invoke();
+
 				foreach (var lineHander in lineHandlerScripts.Where(lineScript => lineScript.Height == height).ToList())
 				{
 					Destroy(lineHander.gameObject);

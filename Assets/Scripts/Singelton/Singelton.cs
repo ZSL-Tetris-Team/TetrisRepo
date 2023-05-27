@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Singelton<T> : MonoBehaviour where T : Component
 {
@@ -12,14 +15,27 @@ public class Singelton<T> : MonoBehaviour where T : Component
         {
             if(_instance == null)
             {
-				GameObject obj = new()
-				{
-					name = typeof(T).Name,
-					hideFlags = HideFlags.HideAndDontSave
+                Debug.Log("reassign");
+                GameObject obj = new()
+                {
+                    name = typeof(T).Name,
+                    hideFlags = HideFlags.DontSave
 				};
 				_instance = obj.AddComponent<T>();
             }
             return _instance;
         }
+    }
+	private void OnEnable()
+	{
+        SceneManager.sceneUnloaded += ResetInstance;
+	}
+	private void OnDisable()
+	{
+		SceneManager.sceneUnloaded -= ResetInstance;
+	}
+    private void ResetInstance(Scene scene)
+    {
+        _instance = null;
     }
 }

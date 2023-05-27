@@ -49,7 +49,7 @@ public class MenuManager : MonoBehaviour
     public void ReStartPlaying()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadSceneAsync(currentSceneIndex);
+        SceneManager.LoadScene(currentSceneIndex);
         Debug.Log("Next game");
     }
     public void GoToMenuScene()

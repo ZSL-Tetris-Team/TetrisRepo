@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -22,14 +23,15 @@ public class GameManager : Singelton<GameManager>
 	public void AddScore(uint amount)
 	{
 		Score += amount;
-		EventManager.OnScoreChange.Invoke(Score);
+		EventManager.Instance.OnScoreChange.Invoke(Score);
 	}
 
     private GameObject fallingBlockPrefab;
-    private List<GameObject> blocks = new();
+	private GameObject ghostBlock;
+    public List<GameObject> blocks = new();
 	private List<GameObject> heldedBlocks = new();
+	private bool isLineFalling;
 	public int BlocksCount { get; private set; } = 0;
-
 	public int FloorMask { get; private set; }
 	public int WallMask { get; private set; }
 
@@ -40,38 +42,21 @@ public class GameManager : Singelton<GameManager>
     {
         FloorMask = LayerMask.GetMask("FloorLayer", "CubeLayer");
         WallMask = LayerMask.GetMask("WallLayer", "CubeLayer");
+
         PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
         ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
 		LocalDataManager = Resources.Load<LocalDataManager>("LocalDataManager");
-        EventManager.OnBlockFloorCollision.AddListener(() => {
-			int cubesCount = blocks.Last().GetComponentsInChildren<Transform>().Length - 1;
-			AddScore((uint)cubesCount * ConstSettingsManager.SingleCubeValue);
-			SwitchState(States.InstantiateBlock); 
-		});
-		EventManager.OnGameManagerDependeciesLoaded.Invoke();
+
+       
+		EventManager.Instance.OnLineStartFalling.AddListener(() => { isLineFalling = true; });
+		EventManager.Instance.OnLineFallen.AddListener(() => { isLineFalling = false; });
+		EventManager.Instance.OnGameManagerDependeciesLoaded.Invoke();
+		blocks.Clear();
 	}
 	private void Start()
 	{
+		
 		SwitchState(States.InstantiateBlock);
-	}
-	private void Update()
-	{
-		switch (state)
-		{
-			case States.InstantiateBlock:
-
-				break;
-			case States.WaitForBlock:
-
-				HandleHoldingBlocks();
-
-				break;
-			case States.Lost:
-
-				InvokeOnGameRestart();
-
-				break;
-		}
 	}
 	private void SwitchState(States state)
     {
@@ -79,6 +64,13 @@ public class GameManager : Singelton<GameManager>
         {
             case States.InstantiateBlock:
 				this.state = States.InstantiateBlock;
+
+				Destroy(ghostBlock);
+				ghostBlock = null;
+
+				FullLineHandler.HandleDestroyingCubes();
+
+				if (isLineFalling) return;
 
 				if (FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 1)
 				{
@@ -92,13 +84,12 @@ public class GameManager : Singelton<GameManager>
 				InstantiateBlock(DrawBlock(), new Vector3(0, y, 0));
                 SwitchState(States.WaitForBlock);
 
-                break;
+				break;
             case States.WaitForBlock:
 				this.state = States.WaitForBlock;
 
                 Debug.Log("WaitForBlock");
-				Debug.Log(FullLineHandler.GetHighestHeight());
-				FullLineHandler.HandleDestroyingCubes();
+				Debug.Log("Highest blocks height: " + FullLineHandler.GetHighestHeight());
 
 				break;
             case States.Lost:
@@ -108,11 +99,72 @@ public class GameManager : Singelton<GameManager>
 
 				LocalDataManager.Scores.Add(Score);
 				ResetGame();
-				EventManager.OnGameOver.Invoke();
+				EventManager.Instance.OnGameOver.Invoke();
 
 				break;
         }
     }
+	private void Update()
+	{
+		switch (state)
+		{
+			case States.InstantiateBlock:
+
+				if (isLineFalling) return;
+
+				Destroy(ghostBlock);
+				ghostBlock = null;
+
+				if (FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 1)
+				{
+					SwitchState(States.Lost);
+					break;
+				}
+
+				float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 21.5f : 18.5f;
+				InstantiateBlock(DrawBlock(), new Vector3(0, y, 0));
+				SwitchState(States.WaitForBlock);
+
+				break;
+			case States.WaitForBlock:
+
+				HandleHoldingBlocks();
+
+				HandleDisplayingGhost();
+
+				break;
+			case States.Lost:
+
+				InvokeOnGameRestart();
+
+				break;
+		}
+	}
+	private void HandleDisplayingGhost()
+	{
+		if (ghostBlock == null)
+		{
+			ghostBlock = Instantiate(fallingBlockPrefab);
+
+			Debug.Log("GhostInstantiated: " + ghostBlock.name);
+
+			Debug.Log(blocks.Count);
+			BlockFSMBase b = ghostBlock.GetComponent<BlockFSMBase>();
+			EventManager.Instance.OnBlockFloorCollision.AddListener(() => {
+
+				int cubesCount = blocks.Last().GetComponentsInChildren<Transform>().Length - 1;
+				AddScore((uint)cubesCount * ConstSettingsManager.SingleCubeValue);
+				SwitchState(States.InstantiateBlock);
+
+			});
+			//Debug.Log("disable");
+			b.StartBlock(b.DisabledState);
+
+		}
+		
+		ghostBlock.transform.position = Collision.GetClosestBottomPoint(blocks.Last());
+		ghostBlock.transform.rotation = blocks.Last().transform.rotation;
+	}
 	private void HandleHoldingBlocks()
 	{
 		if (InputManager.Instance.GetHoldPiece())
@@ -122,8 +174,8 @@ public class GameManager : Singelton<GameManager>
 				Destroy(blocks.Last());
 			
 				heldedBlocks.Add(fallingBlockPrefab);
-				EventManager.OnHeldedBlocksChange.Invoke(heldedBlocks);
-				EventManager.OnDisableAllBlocks.Invoke();
+				EventManager.Instance.OnHeldedBlocksChange.Invoke(heldedBlocks);
+				EventManager.Instance.OnDisableAllBlocks.Invoke();
 
 				SwitchState(States.InstantiateBlock);
 			}
@@ -143,7 +195,7 @@ public class GameManager : Singelton<GameManager>
 	{
 		if (InputManager.Instance.GetTryAgain())
 		{
-			EventManager.OnGameRestart.Invoke();
+			EventManager.Instance.OnGameRestart.Invoke();
 			SwitchState(States.InstantiateBlock);
 		}
 	}
@@ -164,10 +216,16 @@ public class GameManager : Singelton<GameManager>
 		block.transform.position = board.transform.position + new Vector3(-0.5f, 0, 0) + position;
 
 		blocks.Add(block);
+
+		Debug.Log(blocks.Count);
+		Debug.Log("Instantiated: " + block.name);
+
+		BlockFSMBase b = block.GetComponent<BlockFSMBase>();
+		b.StartBlock(b.FallingState);
 	}
     private GameObject DrawBlock()
     {
-		fallingBlockPrefab = PrefabManager.Blocks[new System.Random().Next(PrefabManager.Blocks.Length - 1)];
+		fallingBlockPrefab = PrefabManager.Blocks[new System.Random().Next(PrefabManager.Blocks.Length)];
 		return fallingBlockPrefab;
     }
 }

@@ -8,7 +8,7 @@ public class HeldedBlocksDisplayer : MonoBehaviour
 	private GameObject displayedBlock;
 	private void Awake()
 	{
-		EventManager.OnHeldedBlocksChange.AddListener(DisplayBlock);
+		EventManager.Instance.OnHeldedBlocksChange.AddListener(DisplayBlock);
 	}
 	private void DisplayBlock(List<GameObject> blocks)
 	{
@@ -22,7 +22,7 @@ public class HeldedBlocksDisplayer : MonoBehaviour
 		displayedBlock = Instantiate(blocks[listIndexToDisplay]);
 		foreach(var lineHandler in displayedBlock.GetComponentsInChildren<FullLineHandler>())
 		{
-			lineHandler.permDisabled = true;
+			lineHandler.PermDisabled = true;
 		}
 		displayedBlock.transform.position = transform.position;
 	}

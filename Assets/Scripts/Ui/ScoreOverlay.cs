@@ -9,7 +9,7 @@ public class ScoreOverlay : MonoBehaviour
 	private void Awake()
 	{
 		_textMeshPro = GetComponent<TextMeshProUGUI>();
-		EventManager.OnScoreChange.AddListener(UpdateScore);
+		EventManager.Instance.OnScoreChange.AddListener(UpdateScore);
 	}
 	private void UpdateScore(uint score)
 	{
