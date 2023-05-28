@@ -49,6 +49,13 @@ public class GameManager : Singelton<GameManager>
 		EventManager.Instance.OnLineStartFalling.AddListener(() => { isLineFalling = true; });
 		EventManager.Instance.OnLineFallen.AddListener(() => { isLineFalling = false; });
 		EventManager.Instance.OnGameManagerDependeciesLoaded.Invoke();
+		EventManager.Instance.OnBlockFloorCollision.AddListener(() => {
+
+			int cubesCount = blocks.Last().GetComponentsInChildren<Transform>().Length - 1;
+			AddScore((uint)cubesCount * ConstSettingsManager.SingleCubeValue);
+			SwitchState(States.InstantiateBlock);
+
+		});
 		blocks.Clear();
 	}
 	private void Start()
@@ -95,8 +102,7 @@ public class GameManager : Singelton<GameManager>
 
                 Debug.Log("Lost");
 
-				Scores.AddScore(Score);
-				ResetGame();
+				Scores.AddScore(new Score(Score));
 				EventManager.Instance.OnGameOver.Invoke();
 
 				break;
@@ -133,8 +139,6 @@ public class GameManager : Singelton<GameManager>
 				break;
 			case States.Lost:
 
-				InvokeOnGameRestart();
-
 				break;
 		}
 	}
@@ -147,13 +151,6 @@ public class GameManager : Singelton<GameManager>
 			Debug.Log("GhostInstantiated: " + ghostBlock.name);
 
 			BlockFSMBase b = ghostBlock.GetComponent<BlockFSMBase>();
-			EventManager.Instance.OnBlockFloorCollision.AddListener(() => {
-
-				int cubesCount = blocks.Last().GetComponentsInChildren<Transform>().Length - 1;
-				AddScore((uint)cubesCount * ConstSettingsManager.SingleCubeValue);
-				SwitchState(States.InstantiateBlock);
-
-			});
 			//Debug.Log("disable");
 			b.StartBlock(b.DisabledState);
 
@@ -187,22 +184,6 @@ public class GameManager : Singelton<GameManager>
 		Vector3 oldBlockPos = blocks.Last().transform.position;
 		Destroy(blocks.Last());
 		InstantiateBlock(block, oldBlockPos);
-	}
-	private void InvokeOnGameRestart()
-	{
-		if (InputManager.Instance.GetTryAgain())
-		{
-			EventManager.Instance.OnGameRestart.Invoke();
-			SwitchState(States.InstantiateBlock);
-		}
-	}
-	public void ResetGame()
-	{
-		foreach (var block in blocks)
-		{
-			Destroy(block);
-		}
-		blocks = new();
 	}
 	private void InstantiateBlock(GameObject pBlock, Vector3 position)
     {

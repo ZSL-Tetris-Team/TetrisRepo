@@ -6,9 +6,10 @@ using UnityEngine;
 public class ScoreDisplayer : MonoBehaviour
 {
 	private TextMeshProUGUI _textMeshPro;
-	private void Awake()
+	private void Start()
 	{
+		Debug.Log("display");
 		_textMeshPro = GetComponent<TextMeshProUGUI>();
-		_textMeshPro.text = "SCORE: " + GameManager.Instance.Score;
+		_textMeshPro.text = "SCORE: twoja stara " + GameManager.Instance.Score.ToString();
 	}
 }

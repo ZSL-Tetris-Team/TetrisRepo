@@ -7,9 +7,9 @@ using UnityEngine;
 public class BestScoreDisplayer : MonoBehaviour
 {
 	private TextMeshProUGUI _textMeshPro;
-	private void Awake()
+	private void Start()
 	{
 		_textMeshPro = GetComponent<TextMeshProUGUI>();
-		_textMeshPro.text = "BEST SCORE: " + Scores.GetHighest();
+		_textMeshPro.text = "BEST SCORE: " + Scores.GetHighest().Points;
 	}
 }

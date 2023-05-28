@@ -70,6 +70,7 @@ public class FullLineHandler : MonoBehaviour
 		if (PermDisabled) return;
 		enabled = true;
 	}
+	//Distance to travel is a value that says the block how much of vertical movement left it has to do
 	private void HandleDistanceToTravel()
 	{
 		if (verticalDistanceToTravel > 0)
@@ -84,12 +85,9 @@ public class FullLineHandler : MonoBehaviour
 			EventManager.Instance.OnLineFallen.Invoke();
 		}
 	}
-	private static bool IsLineFull(int height)
-	{
-		int count = lineHandlerScripts.Where(lineScript => lineScript.Height == height && lineScript.enabled).Count();
-		//Debug.Log($"Count: {count} | Height: {height}");
-		return count == GameManager.Instance.ConstSettingsManager.BoardWidth;
-	}
+	/// <summary>
+	/// Logs all of the heights, that cubes are at
+	/// </summary>
 	public static void DebugHeight()
 	{
 		var heights = lineHandlerScripts.Where(lineHander => lineHander.enabled).Select(lineHander => lineHander.Height).Distinct().ToList();
@@ -102,6 +100,9 @@ public class FullLineHandler : MonoBehaviour
 	{
 		return lineHandlerScripts.Where(lineHandler => lineHandler.enabled).Select(lineHandler => lineHandler.Height).OrderByDescending(number => number).FirstOrDefault();
 	}
+	/// <summary>
+	/// This method checks wether the line is full and then deletes the line and moves the above cubes down
+	/// </summary>
 	public static void HandleDestroyingCubes()
 	{
 		List<int> heights = lineHandlerScripts.Select(lineHander => lineHander.Height).Distinct().OrderByDescending(number => number).ToList();
@@ -113,18 +114,31 @@ public class FullLineHandler : MonoBehaviour
 				GameManager.Instance.AddScore(GameManager.Instance.ConstSettingsManager.FullLineValue);
 				EventManager.Instance.OnLineStartFalling.Invoke();
 
-				foreach (var lineHander in lineHandlerScripts.Where(lineScript => lineScript.Height == height).ToList())
-				{
-					Destroy(lineHander.gameObject);
-				}
-
-				foreach (var lineHandler in lineHandlerScripts)
-				{
-					if (lineHandler.Height > height)
-					{
-						lineHandler.verticalDistanceToTravel++;
-					}
-				}
+				DestroyCubesAtHeight(height);
+				MoveCubesDown(height);
+			}
+		}
+	}
+	private static bool IsLineFull(int height)
+	{
+		int count = lineHandlerScripts.Where(lineScript => lineScript.Height == height && lineScript.enabled).Count();
+		//Debug.Log($"Count: {count} | Height: {height}");
+		return count == GameManager.Instance.ConstSettingsManager.BoardWidth;
+	}
+	private static void DestroyCubesAtHeight(int height)
+	{
+		foreach (var lineHander in lineHandlerScripts.Where(lineScript => lineScript.Height == height).ToList())
+		{
+			Destroy(lineHander.gameObject);
+		}
+	}
+	private static void MoveCubesDown(int height)
+	{
+		foreach (var lineHandler in lineHandlerScripts)
+		{
+			if (lineHandler.Height > height)
+			{
+				lineHandler.verticalDistanceToTravel++;
 			}
 		}
 	}

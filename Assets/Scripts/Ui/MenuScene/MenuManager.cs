@@ -15,7 +15,9 @@ public class MenuManager : MonoBehaviour
         options = GameObject.Find("body-options");
         scoreboad = GameObject.Find("body-scoreboard");
         instruction = GameObject.Find("body-instruction");
+
     }
+
     // Update is called once per frame
     public void EnterOptions() {
         menu.SetActive(false);
@@ -42,18 +44,30 @@ public class MenuManager : MonoBehaviour
         options.SetActive(false);
         scoreboad.SetActive(false);
     }
+    
     public void StartPlaying()
     {
+        
         SceneManager.LoadScene("MainScene");
+        
     }
+
+
     public void ReStartPlaying()
     {
+
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
+        SceneManager.LoadSceneAsync(currentSceneIndex);
         Debug.Log("Next game");
+
     }
+    
+
+
     public void GoToMenuScene()
     {
         SceneManager.LoadScene("menu");
     }
+
+
 }

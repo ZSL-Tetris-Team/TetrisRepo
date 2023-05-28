@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ScoreOverlay : MonoBehaviour
 {
+	[SerializeField] private string message = "Your Score";
 	private TextMeshProUGUI _textMeshPro;
 	private void Awake()
 	{
@@ -13,6 +14,6 @@ public class ScoreOverlay : MonoBehaviour
 	}
 	private void UpdateScore(uint score)
 	{
-		_textMeshPro.text = "Twój wynik: " + score;
+		_textMeshPro.text =$"{message}: {score}";
 	}
 }
