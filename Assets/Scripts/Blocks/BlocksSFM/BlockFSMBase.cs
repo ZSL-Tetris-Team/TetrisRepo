@@ -13,6 +13,7 @@ public class BlockFSMBase : MonoBehaviour
 	private BlockState _fallingState = new FallingState();
 	private BlockState _waitingState = new WaitingState();
 	private BlockState _disabledState = new DisabledState();
+	private BlockState _ghostState = new GhostState();
 
 	private BlockState currState;
 	[SerializeField] private string currStateName;
@@ -24,7 +25,9 @@ public class BlockFSMBase : MonoBehaviour
 	public BlockState FallingState { get => _fallingState; private set => _fallingState = value; }
 	public BlockState WaitingState { get => _waitingState; private set => _waitingState = value; }
 	public BlockState DisabledState { get => _disabledState; private set => _disabledState = value; }
-	public BlockState CurrState { 
+	public BlockState GhostState { get => _ghostState; private set => _ghostState = value; }
+	public BlockState CurrState
+	{
 		get => currState;
 		private set
 		{

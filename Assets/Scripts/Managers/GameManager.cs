@@ -26,6 +26,7 @@ public class GameManager : Singelton<GameManager>
 		EventManager.Instance.OnScoreChange.Invoke(Score);
 	}
 
+	private List<GameObject> nextBlocks = new();
     private GameObject fallingBlockPrefab;
 	private GameObject ghostBlock;
     private List<GameObject> blocks = new();
@@ -60,7 +61,7 @@ public class GameManager : Singelton<GameManager>
 	}
 	private void Start()
 	{
-		
+		FillNextBlocks();
 		SwitchState(States.InstantiateBlock);
 	}
 	private void SwitchState(States state)
@@ -85,9 +86,9 @@ public class GameManager : Singelton<GameManager>
 
 				Debug.Log("InstantiateBlock");
 
-				float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 21.5f : 18.5f;
-				InstantiateBlock(DrawBlock(), new Vector3(0, y, 0));
-                SwitchState(States.WaitForBlock);
+				CreateBlock();
+
+				SwitchState(States.WaitForBlock);
 
 				break;
             case States.WaitForBlock:
@@ -125,8 +126,8 @@ public class GameManager : Singelton<GameManager>
 					break;
 				}
 
-				float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 21.5f : 18.5f;
-				InstantiateBlock(DrawBlock(), new Vector3(0, y, 0));
+				CreateBlock();
+
 				SwitchState(States.WaitForBlock);
 
 				break;
@@ -142,17 +143,39 @@ public class GameManager : Singelton<GameManager>
 				break;
 		}
 	}
+	private void CreateBlock()
+	{
+		float y = FullLineHandler.GetHighestHeight() > ConstSettingsManager.BoardHeight - 6 ? 21.5f : 18.5f;
+		InstantiateBlock(nextBlocks[0], new Vector3(0, y, 0));
+
+		
+	}
+	private void UpdateNextBlock()
+	{
+		nextBlocks.RemoveAt(0);
+		nextBlocks.Add(DrawBlock());
+
+		EventManager.Instance.OnNextBlocksChange.Invoke(nextBlocks);
+	}
+	private void FillNextBlocks()
+	{
+		for(int i = 0; i < 3; i++)
+		{
+			nextBlocks.Add(DrawBlock());
+		}
+	}
 	private void HandleDisplayingGhost()
 	{
 		if (ghostBlock == null)
 		{
 			ghostBlock = Instantiate(fallingBlockPrefab);
+			UpdateNextBlock();
 
 			Debug.Log("GhostInstantiated: " + ghostBlock.name);
 
 			BlockFSMBase b = ghostBlock.GetComponent<BlockFSMBase>();
 			//Debug.Log("disable");
-			b.StartBlock(b.DisabledState);
+			b.StartBlock(b.GhostState);
 
 		}
 		

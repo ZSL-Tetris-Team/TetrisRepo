@@ -10,6 +10,6 @@ public class ScoreDisplayer : MonoBehaviour
 	{
 		Debug.Log("display");
 		_textMeshPro = GetComponent<TextMeshProUGUI>();
-		_textMeshPro.text = "SCORE: twoja stara " + GameManager.Instance.Score.ToString();
+		_textMeshPro.text = "SCORE: " + GameManager.Instance.Score;
 	}
 }

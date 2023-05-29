@@ -16,4 +16,5 @@ public class EventManager : Singelton<EventManager>
 	public readonly Event<uint> OnScoreChange = new();
 	public readonly Event OnLineStartFalling = new();
 	public readonly Event OnLineFallen = new();
+	public readonly Event<List<GameObject>> OnNextBlocksChange = new();	
 }
