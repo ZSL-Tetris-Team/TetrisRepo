@@ -84,6 +84,10 @@ public class Collision : MonoBehaviour
 		}
 		return false;
 	}
+	public static bool CollisionScriptsContainsParent(string parentName)
+	{
+		return collisionScripts.ContainsKey(parentName);
+	}
 
 	/// <summary>
 	/// Gets the closest point under the block
@@ -92,7 +96,7 @@ public class Collision : MonoBehaviour
 	/// <param name="parent">The parent name of cubes used for identifing the cubes</param>
 	/// <returns>Vector3 with the position ready for hard drop</returns>
 	public static Vector3 GetClosestBottomPoint(GameObject parent)
-	{ 
+	{
 		Collision finalCollision = collisionScripts[parent.name][0];
 		RaycastHit finalHit = finalCollision.GetBottomPoint();
 		float rayLength = finalHit.distance;

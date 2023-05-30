@@ -23,11 +23,11 @@ public class AudioManager : Singelton<AudioManager>
 		set
 		{
 			_SFXVolume = Mathf.Log10(value) * 20;
-			AudioMixersData.MusicMixer.SetFloat("SFXVolume", _SFXVolume);
+			AudioMixersData.SFXMixer.SetFloat("SFXVolume", _SFXVolume);
 			PlayerPrefs.SetFloat("SFXVolume", value);
 		}
 	}
-	private void Start()
+	private void Awake()
 	{
 		AudioMixersData = Resources.Load<AudioMixersData>("AudioMixersData");
 		MusicVolume = PlayerPrefs.GetFloat("MusicVolume");

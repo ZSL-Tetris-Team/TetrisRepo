@@ -18,6 +18,13 @@ public class BlockFSMBase : MonoBehaviour
 	private BlockState currState;
 	[SerializeField] private string currStateName;
 
+    public AudioSource AudioSource { get; private set; }
+
+    public AudioClip fallenSound;
+	public AudioClip holdSound;
+	public AudioClip fullLineSound;
+	public AudioClip spawnSound;
+
 	public BoxCollider Col { get => _col; private set => _col = value; }
 	public GameManager GameManager { get => _gameManager; private set => _gameManager = value; }
 	public InputManager InputManager { get => _inputManager; private set => _inputManager = value; }
@@ -41,6 +48,7 @@ public class BlockFSMBase : MonoBehaviour
 		GameManager = GameManager.Instance;
 		InputManager = InputManager.Instance;
 		Csm = GameManager.ConstSettingsManager;
+		AudioSource = GetComponent<AudioSource>();
 
 		enabled = false;
 	}

@@ -41,6 +41,9 @@ public class FallingState : BlockState
 		DisableCubesColliders();
 		b.GetComponent<BoxCollider>().enabled = true;
 
+		//b.AudioSource.clip = b.spawnSound;
+		//b.AudioSource.Play();
+
 		VerticalMovement();
 	}
 	public override void Update(BlockFSMBase b)

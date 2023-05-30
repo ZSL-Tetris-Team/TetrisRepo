@@ -40,6 +40,8 @@ public class GameManager : Singelton<GameManager>
 	public PrefabManager PrefabManager { get; private set; }
 	public ConstSettingsManager ConstSettingsManager { get; private set; }
 	public LocalDataManager LocalDataManager { get; private set; }
+	public States State { get => state; private set => state = value; }
+
 	private void Awake()
 	{
 		FloorMask = LayerMask.GetMask("FloorLayer", "CubeLayer");
@@ -48,7 +50,15 @@ public class GameManager : Singelton<GameManager>
 		PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
 		ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
 
-		EventManager.Instance.OnLineStartFalling.AddListener(() => { isLineFalling = true; });
+		EventManager.Instance.OnLineStartFalling.AddListener(() => { 
+
+			isLineFalling = true;
+
+			var FSM = blocks.Last().GetComponent<BlockFSMBase>();
+			FSM.AudioSource.clip = FSM.fullLineSound;
+			FSM.AudioSource.Play();
+
+		});
 		EventManager.Instance.OnLineFallen.AddListener(() => { isLineFalling = false; });
 		EventManager.Instance.OnGameManagerDependeciesLoaded.Invoke();
 		EventManager.Instance.OnBlockFloorCollision.AddListener(() => {
@@ -58,6 +68,7 @@ public class GameManager : Singelton<GameManager>
 			SwitchState(States.InstantiateBlock);
 
 		});
+		EventManager.Instance.OnLost.AddListener(() => SwitchState(States.Lost));
 	}
 	private void Start()
 	{
@@ -192,17 +203,26 @@ public class GameManager : Singelton<GameManager>
 
 			b.StartBlock(b.GhostState);
 		}
-
-		ghostBlock.transform.position = Collision.GetClosestBottomPoint(blocks.Last());
-		ghostBlock.transform.rotation = blocks.Last().transform.rotation;
+		if (blocks.Last().name != null && Collision.CollisionScriptsContainsParent(blocks.Last().name))
+		{
+			ghostBlock.transform.position = Collision.GetClosestBottomPoint(blocks.Last());
+			ghostBlock.transform.rotation = blocks.Last().transform.rotation;
+		}
 	}
 	private void HandleHoldingBlocks()
 	{
+		
 		if (InputManager.Instance.GetHoldPiece())
 		{
+			var FSM = blocks.Last().GetComponent<BlockFSMBase>();
+			FSM.AudioSource.clip = FSM.holdSound;
+			FSM.AudioSource.Play();
 			if (hasBlockBeenHolded) return;
 
 			hasBlockBeenHolded = true;
+
+			Debug.Log("play");
+			
 
 			if (heldedBlock == null)
 			{

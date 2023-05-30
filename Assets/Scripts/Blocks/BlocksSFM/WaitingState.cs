@@ -15,6 +15,9 @@ public class WaitingState : BlockState
 
 		DisableBoxColliders();
 		DisableFullLineScripts();
+
+		b.AudioSource.clip = b.fallenSound;
+		b.AudioSource.Play();
 	}
 	private void DisableBoxColliders()
 	{

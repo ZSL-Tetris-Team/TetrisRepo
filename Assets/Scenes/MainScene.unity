@@ -6889,6 +6889,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LooseCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8193740782249398766, guid: f0d83f9e93d53f1419c58954e2eb6b45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0d83f9e93d53f1419c58954e2eb6b45, type: 3}
 --- !u!1001 &8172457086134618841
@@ -7082,6 +7086,10 @@ PrefabInstance:
     - target: {fileID: 4299931758696675345, guid: 314536ee221eb5d4195dff2f8f8299c7, type: 3}
       propertyPath: m_Name
       value: PauseCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299931758696675345, guid: 314536ee221eb5d4195dff2f8f8299c7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4299931758696675349, guid: 314536ee221eb5d4195dff2f8f8299c7, type: 3}
       propertyPath: m_Pivot.x

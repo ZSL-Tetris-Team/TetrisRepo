@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: AudioMixersData
   m_EditorClassIdentifier: 
   _musicMixer: {fileID: 24100000, guid: 336697f6d0298da4c8976ea7efc6fdcf, type: 2}
-  _SFXMixer: {fileID: 0}
+  _SFXMixer: {fileID: 24100000, guid: 0429aa6e788e77048a7188e4214f42e5, type: 2}

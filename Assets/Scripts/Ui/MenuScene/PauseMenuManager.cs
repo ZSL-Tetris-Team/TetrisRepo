@@ -56,6 +56,8 @@ public class PauseMenuManager : MonoBehaviour
     public void ReStartPlaying()
     {
         Time.timeScale = 1;
+        if (GameManager.Instance.State != GameManager.States.Lost)
+            EventManager.Instance.OnLost.Invoke();
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
         Debug.Log("Next game");
