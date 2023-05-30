@@ -64,10 +64,9 @@ public class PauseMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("menu");
     }
-    public void Return()
+    public void Resume()
     {
         Time.timeScale = 1;
         EventManager.Instance.OnPauseGame.Invoke();
-		Time.timeScale = Time.timeScale == 1 ? 0 : 1;
 	}
 }
