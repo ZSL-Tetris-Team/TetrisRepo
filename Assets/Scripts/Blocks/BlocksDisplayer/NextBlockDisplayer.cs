@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NextBlockDisplayer : MonoBehaviour
 {
-	[SerializeField][Range(0, 2)] private int listIndexToDisplay = 0;
+	[SerializeField][Range(0, 4)] private int listIndexToDisplay = 0;
 	private GameObject displayedBlock;
 	private void Awake()
 	{

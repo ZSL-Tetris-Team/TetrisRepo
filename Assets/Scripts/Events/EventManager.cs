@@ -12,7 +12,7 @@ public class EventManager : Singelton<EventManager>
 	public readonly Event OnDisableAllBlocks = new();
 	public readonly Event OnGameOver = new();
 	public readonly Event OnGameRestart = new();
-	public readonly Event<List<GameObject>> OnHeldedBlocksChange = new();
+	public readonly Event<GameObject> OnHeldedBlocksChange = new();
 	public readonly Event<uint> OnScoreChange = new();
 	public readonly Event OnLineStartFalling = new();
 	public readonly Event OnLineFallen = new();
