@@ -196,6 +196,9 @@ public class GameManager : Singelton<GameManager>
 
 			if (heldedBlock == null)
 			{
+				Destroy(ghostBlock);
+				ghostBlock = null;
+
 				Destroy(blocks.Last());
 				blocks.RemoveAt(blocks.Count - 1);
 
