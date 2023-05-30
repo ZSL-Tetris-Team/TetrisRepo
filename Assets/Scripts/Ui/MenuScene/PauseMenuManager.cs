@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class MenuManager : MonoBehaviour
+public class PauseMenuManager : MonoBehaviour
 {
     GameObject menu;
     GameObject options;
@@ -15,7 +15,14 @@ public class MenuManager : MonoBehaviour
         options = GameObject.Find("body-options");
         scoreboad = GameObject.Find("body-scoreboard");
         instruction = GameObject.Find("body-instruction");
-
+        EventManager.Instance.OnPauseGame.AddListener(EnterMainScreen);
+    }
+    public void EnterMainScreen()
+    {
+        menu.SetActive(true);
+        options.SetActive(false);
+        scoreboad.SetActive(false);
+        instruction.SetActive(false);
     }
     public void EnterOptions() {
         menu.SetActive(false);
@@ -48,12 +55,19 @@ public class MenuManager : MonoBehaviour
     }
     public void ReStartPlaying()
     {
+        Time.timeScale = 1;
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadSceneAsync(currentSceneIndex);
+        SceneManager.LoadScene(currentSceneIndex);
         Debug.Log("Next game");
     }
     public void GoToMenuScene()
     {
         SceneManager.LoadScene("menu");
     }
+    public void Return()
+    {
+        Time.timeScale = 1;
+        EventManager.Instance.OnPauseGame.Invoke();
+		Time.timeScale = Time.timeScale == 1 ? 0 : 1;
+	}
 }

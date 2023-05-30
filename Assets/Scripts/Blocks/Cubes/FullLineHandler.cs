@@ -57,6 +57,7 @@ public class FullLineHandler : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (Time.timeScale == 0) return;
 		HandleDistanceToTravel();
 	}
 	private void OnDestroy()

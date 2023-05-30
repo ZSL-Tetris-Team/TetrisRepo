@@ -216,7 +216,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
             ""id"": ""724e010a-c6a3-46ee-9b98-746c24e7690a"",
             ""actions"": [
                 {
-                    ""name"": ""TryAgain"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""f202e53a-e7c5-4e17-8864-79e76a2dd607"",
                     ""expectedControlType"": ""Button"",
@@ -233,7 +233,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Blocks"",
-                    ""action"": ""TryAgain"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -261,7 +261,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
         m_Blocks_SoftDropDown = m_Blocks.FindAction("SoftDropDown", throwIfNotFound: true);
         // Ui
         m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
-        m_Ui_TryAgain = m_Ui.FindAction("TryAgain", throwIfNotFound: true);
+        m_Ui_Pause = m_Ui.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -418,12 +418,12 @@ public partial class @Input : IInputActionCollection2, IDisposable
     // Ui
     private readonly InputActionMap m_Ui;
     private IUiActions m_UiActionsCallbackInterface;
-    private readonly InputAction m_Ui_TryAgain;
+    private readonly InputAction m_Ui_Pause;
     public struct UiActions
     {
         private @Input m_Wrapper;
         public UiActions(@Input wrapper) { m_Wrapper = wrapper; }
-        public InputAction @TryAgain => m_Wrapper.m_Ui_TryAgain;
+        public InputAction @Pause => m_Wrapper.m_Ui_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Ui; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -433,16 +433,16 @@ public partial class @Input : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_UiActionsCallbackInterface != null)
             {
-                @TryAgain.started -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
-                @TryAgain.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
-                @TryAgain.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
+                @Pause.started -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_UiActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @TryAgain.started += instance.OnTryAgain;
-                @TryAgain.performed += instance.OnTryAgain;
-                @TryAgain.canceled += instance.OnTryAgain;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -470,6 +470,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
     }
     public interface IUiActions
     {
-        void OnTryAgain(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

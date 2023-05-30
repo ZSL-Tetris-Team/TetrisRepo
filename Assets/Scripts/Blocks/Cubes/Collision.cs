@@ -40,6 +40,7 @@ public class Collision : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (Time.timeScale == 0) return;
 		DrawRays();
 	}
 	private void OnDestroy()

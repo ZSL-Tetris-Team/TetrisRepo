@@ -38,6 +38,6 @@ public class InputManager : Singelton<InputManager>
 	public bool GetSoftDropUp() => input.Blocks.SoftDropUp.triggered;
 	public bool GetHardDrop() => input.Blocks.HardDrop.triggered;
 	public bool GetHoldPiece() => input.Blocks.HoldPiece.triggered;
-	public bool GetTryAgain() => input.Ui.TryAgain.triggered;
+	public bool GetPause() => input.Ui.Pause.triggered;
 }
 

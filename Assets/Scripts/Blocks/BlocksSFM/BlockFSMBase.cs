@@ -52,6 +52,7 @@ public class BlockFSMBase : MonoBehaviour
 	}
 	private void Update()
 	{
+		if (Time.timeScale == 0) return;
 		CurrState.Update(this);
 	}
 	private void FixedUpdate()

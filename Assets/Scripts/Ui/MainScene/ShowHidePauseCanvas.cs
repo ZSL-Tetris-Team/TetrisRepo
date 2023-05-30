@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowHideCanvas : MonoBehaviour
+public class ShowHidePauseCanvas : MonoBehaviour
 {
 	private void Awake()
 	{
 		ToggleCanvas();
-		EventManager.Instance.OnGameOver.AddListener(ToggleCanvas);
+		EventManager.Instance.OnPauseGame.AddListener(ToggleCanvas);
 	}
 	private void ToggleCanvas()
 	{

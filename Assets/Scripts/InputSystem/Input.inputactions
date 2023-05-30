@@ -194,7 +194,7 @@
             "id": "724e010a-c6a3-46ee-9b98-746c24e7690a",
             "actions": [
                 {
-                    "name": "TryAgain",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "f202e53a-e7c5-4e17-8864-79e76a2dd607",
                     "expectedControlType": "Button",
@@ -211,7 +211,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Blocks",
-                    "action": "TryAgain",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

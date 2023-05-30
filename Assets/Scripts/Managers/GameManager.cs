@@ -113,6 +113,8 @@ public class GameManager : Singelton<GameManager>
 	}
 	private void Update()
 	{
+		HandlePause();
+		if (Time.timeScale == 0) return;
 		switch (state)
 		{
 			case States.InstantiateBlock:
@@ -143,6 +145,14 @@ public class GameManager : Singelton<GameManager>
 			case States.Lost:
 
 				break;
+		}
+	}
+	private void HandlePause()
+	{
+		if (InputManager.Instance.GetPause())
+		{
+			EventManager.Instance.OnPauseGame.Invoke();
+			Time.timeScale = Time.timeScale == 1? 0 : 1;
 		}
 	}
 	private Vector3 GetBlockStartPosition()
