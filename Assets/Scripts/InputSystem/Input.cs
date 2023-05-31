@@ -223,6 +223,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UnPause"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e547d41-6e87-4f7c-bc03-4e1982804a80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,8 +241,19 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
-                    ""groups"": ""Blocks"",
+                    ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8067314d-7569-40ce-8462-6643647c4142"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UnPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -262,6 +282,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
         // Ui
         m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
         m_Ui_Pause = m_Ui.FindAction("Pause", throwIfNotFound: true);
+        m_Ui_UnPause = m_Ui.FindAction("UnPause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -419,11 +440,13 @@ public partial class @Input : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Ui;
     private IUiActions m_UiActionsCallbackInterface;
     private readonly InputAction m_Ui_Pause;
+    private readonly InputAction m_Ui_UnPause;
     public struct UiActions
     {
         private @Input m_Wrapper;
         public UiActions(@Input wrapper) { m_Wrapper = wrapper; }
         public InputAction @Pause => m_Wrapper.m_Ui_Pause;
+        public InputAction @UnPause => m_Wrapper.m_Ui_UnPause;
         public InputActionMap Get() { return m_Wrapper.m_Ui; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -436,6 +459,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
+                @UnPause.started -= m_Wrapper.m_UiActionsCallbackInterface.OnUnPause;
+                @UnPause.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnUnPause;
+                @UnPause.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnUnPause;
             }
             m_Wrapper.m_UiActionsCallbackInterface = instance;
             if (instance != null)
@@ -443,6 +469,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @UnPause.started += instance.OnUnPause;
+                @UnPause.performed += instance.OnUnPause;
+                @UnPause.canceled += instance.OnUnPause;
             }
         }
     }
@@ -471,5 +500,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
     public interface IUiActions
     {
         void OnPause(InputAction.CallbackContext context);
+        void OnUnPause(InputAction.CallbackContext context);
     }
 }

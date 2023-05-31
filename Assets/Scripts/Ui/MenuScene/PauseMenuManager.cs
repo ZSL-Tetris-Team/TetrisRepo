@@ -11,11 +11,19 @@ public class PauseMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Debug.Log("Loaded");
         menu = GameObject.Find("body-menu");
         options = GameObject.Find("body-options");
         scoreboad = GameObject.Find("body-scoreboard");
         instruction = GameObject.Find("body-instruction");
         EventManager.Instance.OnPauseGame.AddListener(EnterMainScreen);
+		EventManager.Instance.OnPauseGame.AddListener(ToggleCanvas);
+		EnterMainScreen();
+		gameObject.SetActive(false);
+    }
+    public void ToggleCanvas()
+    {
+        gameObject.SetActive(!gameObject.activeInHierarchy);
     }
     public void EnterMainScreen()
     {
@@ -58,13 +66,15 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 1;
         if (GameManager.Instance.State != GameManager.States.Lost)
             EventManager.Instance.OnLost.Invoke();
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
-        Debug.Log("Next game");
+        gameObject.SetActive(true);
+        SceneManager.LoadScene("MainScene");
     }
     public void GoToMenuScene()
     {
-        SceneManager.LoadScene("menu");
+        Time.timeScale = 1;
+		if (GameManager.Instance.State != GameManager.States.Lost)
+			EventManager.Instance.OnLost.Invoke();
+		SceneManager.LoadScene("menu");
     }
     public void Resume()
     {

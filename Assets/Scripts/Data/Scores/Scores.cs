@@ -7,7 +7,8 @@ using UnityEngine;
 
 public static class Scores
 {
-    public const string fileDirectory = "Assets/Data/Files/Scores.txt";
+    public static readonly string filesDirectory = $"{Application.dataPath}/Data/Files";
+    public static readonly string scoreDirectory = $"{Application.dataPath}/Data/Files/Scores.txt";
     private static List<Score> _scores = new();
 
 	public static List<Score> List { 
@@ -20,7 +21,10 @@ public static class Scores
 
 	private static void LoadScores()
     {
-		using (StreamReader stream = File.OpenText(fileDirectory))
+        if(!Directory.Exists(filesDirectory)) Directory.CreateDirectory(filesDirectory);
+        if (!File.Exists(scoreDirectory)) File.CreateText(scoreDirectory);
+
+		using (StreamReader stream = File.OpenText(scoreDirectory))
         {
             string line;
             //string line = stream.ReadLine();
@@ -42,7 +46,7 @@ public static class Scores
         //Debug.Log(score.ToString());
 
         _scores.Add(score);
-        File.AppendAllLines(fileDirectory, new string[] { score.ToString() });
+        File.AppendAllLines(scoreDirectory, new string[] { score.ToString() });
     }
     public static Score GetHighest()
     {

@@ -1625,7 +1625,6 @@ GameObject:
   - component: {fileID: 4299931758696675351}
   - component: {fileID: 4299931758696675344}
   - component: {fileID: 4299931758696675348}
-  - component: {fileID: 4718603363234583968}
   - component: {fileID: 1112414589170209944}
   m_Layer: 5
   m_Name: PauseCanvas
@@ -1729,18 +1728,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8ed6ddbc2cd5b247a38920854cc04bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4718603363234583968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4299931758696675345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52addcd681c66c34bb5c69bfe9604645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1112414589170209944

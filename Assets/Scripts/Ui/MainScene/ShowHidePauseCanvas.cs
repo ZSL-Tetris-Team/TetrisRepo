@@ -7,7 +7,7 @@ public class ShowHidePauseCanvas : MonoBehaviour
 	private void Awake()
 	{
 		ToggleCanvas();
-		EventManager.Instance.OnPauseGame.AddListener(ToggleCanvas);
+		
 	}
 	private void ToggleCanvas()
 	{

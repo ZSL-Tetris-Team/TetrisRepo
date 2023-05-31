@@ -39,5 +39,6 @@ public class InputManager : Singelton<InputManager>
 	public bool GetHardDrop() => input.Blocks.HardDrop.triggered;
 	public bool GetHoldPiece() => input.Blocks.HoldPiece.triggered;
 	public bool GetPause() => input.Ui.Pause.triggered;
+	public bool GetUnPause() => input.Ui.UnPause.triggered;
 }
 

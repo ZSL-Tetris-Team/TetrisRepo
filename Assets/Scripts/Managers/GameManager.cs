@@ -160,11 +160,7 @@ public class GameManager : Singelton<GameManager>
 	}
 	private void HandlePause()
 	{
-		if (InputManager.Instance.GetPause())
-		{
-			EventManager.Instance.OnPauseGame.Invoke();
-			Time.timeScale = Time.timeScale == 1? 0 : 1;
-		}
+		
 	}
 	private Vector3 GetBlockStartPosition()
 	{
