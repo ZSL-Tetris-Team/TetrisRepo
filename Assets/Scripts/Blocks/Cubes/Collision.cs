@@ -1,19 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Collision : MonoBehaviour
 {
-	//To jest dwu wymiarowe dictionary?
-	//Będzie ono przechowywało wszystkie instancje klasy Collisions
-	//Dictionary w c++ to mapa
-	//Klucz (string) to nazwa rodzica tego skryptu, z niej dostajemy listę skryptów należących do dzieci rodzica
-	//Każdy indeks w liście odpowiada id skryptu Collision
-	//Na koniec dostajemy sam¹ instancję
 	private static readonly Dictionary<string, List<Collision>> collisionScripts = new();
 
 	[SerializeField] private GameObject parent;
-	private bool isNextToFloor = false;
 	private BoxCollider col;
 
 	private bool isWallRight = false;
@@ -36,60 +30,77 @@ public class Collision : MonoBehaviour
 			};
 		}
 	}
-	//Awake jest wywoływany podczas ładowania tej instancji klasy
 	private void Awake()
 	{
 		col = GetComponent<BoxCollider>();
-		col.enabled = false;
-
-		EventManager.OnBlockFloorCollision.AddListener(DisableAllCollisions);
 	}
 	private void Start()
 	{
 		AddToList();
 	}
-	//Update jest wywo³ywany co każdą klatkę
 	private void Update()
 	{
+		if (Time.timeScale == 0) return;
 		DrawRays();
-	}
-	private void FixedUpdate()
-	{
-		isNextToFloor = FloorCheck();
 	}
 	private void OnDestroy()
 	{
-		EventManager.OnBlockFloorCollision.RemoveListener(DisableAllCollisions);
 		collisionScripts[parent.name].Remove(this);
 	}
 	//Moje metody
 	#region static
+	/// <summary>
+	/// Tells wether the block will collide with the wall after the next horizontal move
+	/// </summary>
+	/// <param name="parentName">The parent name of cubes used for identifing the cubes</param>
+	/// <returns>CollisionResult struct with the bool information and the direction of future possible collision</returns>
 	public static CollisionResult IsNextToWall(string parentName)
 	{
 		if (!collisionScripts.ContainsKey(parentName)) return new CollisionResult(false, false);
-		foreach (Collision collision in collisionScripts[parentName])
+		foreach (Collision collision in collisionScripts[parentName].Where(collision => collision.enabled).ToArray())
 		{
 			//Debug.Log("Wall: " + collision.isNextToWallCube);
-			if (collision.WallCheck()) return new CollisionResult(true, collision.isWallRight);
+			if (collision.WallCheck()) 
+			{
+				return new CollisionResult(true, collision.isWallRight);
+			}
 		}
 		return new CollisionResult(false, false);
 	}
+	/// <summary>
+	/// Tells wether the block will collide with the floor after the next verticall move
+	/// </summary>
+	/// <param name="parentName">The parent name of cubes used for identifing the cubes</param>
 	public static bool IsNextToFloor(string parentName)
 	{
 		if(!collisionScripts.ContainsKey(parentName)) return false;
-		foreach (Collision collision in collisionScripts[parentName])
+		foreach (Collision collision in collisionScripts[parentName].Where(collision => collision.enabled).ToArray())
 		{
 			//Debug.Log("Floor: " + collision.isNextToWallCube);
-			if (collision.isNextToFloor) return true;
+			if (collision.FloorCheck())
+			{
+				return true;
+			}
 		}
 		return false;
 	}
+	public static bool CollisionScriptsContainsParent(string parentName)
+	{
+		return collisionScripts.ContainsKey(parentName);
+	}
+
+	/// <summary>
+	/// Gets the closest point under the block
+	/// Primarly used for hard drop
+	/// </summary>
+	/// <param name="parent">The parent name of cubes used for identifing the cubes</param>
+	/// <returns>Vector3 with the position ready for hard drop</returns>
 	public static Vector3 GetClosestBottomPoint(GameObject parent)
 	{
 		Collision finalCollision = collisionScripts[parent.name][0];
 		RaycastHit finalHit = finalCollision.GetBottomPoint();
 		float rayLength = finalHit.distance;
-
+	
 		foreach (Collision collision in collisionScripts[parent.name])
 		{
 			RaycastHit hit = collision.GetBottomPoint();
@@ -111,7 +122,6 @@ public class Collision : MonoBehaviour
 
 		collisionScripts[parent.name].Add(this);
 	}
-	
 	private bool WallCheck()
 	{
 		foreach (Ray ray in RaysToCast)
@@ -121,7 +131,7 @@ public class Collision : MonoBehaviour
 
 			if (dotRight != 1 && dotLeft != 1) continue;
 
-			if (Physics.Raycast(ray, out RaycastHit hit, 0.9f, GameManager.Instance.WallMask))
+			if (Physics.Raycast(ray, out RaycastHit hit, 0.2f + col.size.x * 0.25f, GameManager.Instance.WallMask))
 			{
 				//Debug.Log("Wall true");
 				isWallRight = dotRight == 1;
@@ -137,9 +147,9 @@ public class Collision : MonoBehaviour
 			if (Vector3.Dot(Vector3.down, ray.direction) != 1) continue;
 
 			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit, 0.9f, GameManager.Instance.FloorMask))
+			if (Physics.Raycast(ray, out hit, 0.1f + col.size.y * 0.25f, GameManager.Instance.FloorMask))
 			{
-				//Debug.Log("Floor true");
+				//Debug.Log(parent.name + " Floor true");
 				return true;
 			}
 		}
@@ -150,31 +160,23 @@ public class Collision : MonoBehaviour
 		Physics.Raycast(BottomRay, out RaycastHit hit, Mathf.Infinity, GameManager.Instance.FloorMask);
 		return hit;
 	}
-	private void DisableAllCollisions()
-	{
-		foreach (Collision collision in collisionScripts[parent.name])
-		{
-			collision.enabled = false;
-			collision.GetComponent<BoxCollider>().enabled = true;
-		}
-	}
 	private void DrawRays()
 	{
-		//foreach (Ray ray in RaysToCast)
-		//{
-		//	if (Vector3.Dot(ray.direction, Vector3.right) != 1 &&
-		//		Vector3.Dot(ray.direction, Vector3.left) != 1) continue;
+		foreach (Ray ray in RaysToCast)
+		{
+			if (Vector3.Dot(ray.direction, Vector3.right) != 1 &&
+				Vector3.Dot(ray.direction, Vector3.left) != 1) continue;
 
-		//	Debug.DrawRay(ray.origin, ray.direction * 0.9f, Color.green);
-		//}
+			Debug.DrawRay(ray.origin, ray.direction * (0.2f + (col.size.y * 0.25f)), Color.green);
+		}
 
 		foreach (Ray ray in RaysToCast)
 		{
 			if (Vector3.Dot(Vector3.down, ray.direction) != 1) continue;
 
-			Debug.DrawRay(ray.origin, ray.direction * 0.9f, Color.red);
+			Debug.DrawRay(ray.origin, ray.direction * (0.1f + (col.size.y * 0.25f)), Color.red);
 		}
 
-		Debug.DrawRay(BottomRay.origin, Vector3.down * 100);
+		//Debug.DrawRay(BottomRay.origin, Vector3.down * 100);
 	}
 }
