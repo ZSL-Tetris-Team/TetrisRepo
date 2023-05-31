@@ -64,15 +64,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SoftDropHold"",
-                    ""type"": ""Value"",
-                    ""id"": ""dcf89304-8db1-48f9-bfc1-d5a5aedfdbc7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""HardDrop"",
                     ""type"": ""Button"",
                     ""id"": ""5193b32f-a91f-472f-9d87-b3d37fed2edc"",
@@ -98,6 +89,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SoftDropHold"",
+                    ""type"": ""Value"",
+                    ""id"": ""dcf89304-8db1-48f9-bfc1-d5a5aedfdbc7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""SoftDropDown"",
@@ -156,17 +156,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c3f7a106-2582-4097-aa5c-385e73a2f348"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": ""Hold(duration=1.401298E-45)"",
-                    ""processors"": """",
-                    ""groups"": ""Blocks"",
-                    ""action"": ""SoftDropHold"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4e29512a-c34a-493e-81b2-010da6f1e7ae"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -191,7 +180,7 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""decd79cb-3b7b-46b8-af0d-179c250f9470"",
                     ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": ""Press(pressPoint=1,behavior=1)"",
                     ""processors"": """",
                     ""groups"": ""Blocks"",
                     ""action"": ""SoftDropUp"",
@@ -202,10 +191,21 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""5681efad-cb50-4c7e-87b7-6e17f5af0b17"",
                     ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press(pressPoint=1.401298E-45)"",
                     ""processors"": """",
                     ""groups"": ""Blocks"",
                     ""action"": ""SoftDropDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3f7a106-2582-4097-aa5c-385e73a2f348"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": ""Hold(duration=1.401298E-45,pressPoint=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Blocks"",
+                    ""action"": ""SoftDropHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -216,9 +216,18 @@ public partial class @Input : IInputActionCollection2, IDisposable
             ""id"": ""724e010a-c6a3-46ee-9b98-746c24e7690a"",
             ""actions"": [
                 {
-                    ""name"": ""TryAgain"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""f202e53a-e7c5-4e17-8864-79e76a2dd607"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UnPause"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e547d41-6e87-4f7c-bc03-4e1982804a80"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -232,8 +241,19 @@ public partial class @Input : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
-                    ""groups"": ""Blocks"",
-                    ""action"": ""TryAgain"",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8067314d-7569-40ce-8462-6643647c4142"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UnPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -254,14 +274,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
         m_Blocks_Left = m_Blocks.FindAction("Left", throwIfNotFound: true);
         m_Blocks_RotateLeft = m_Blocks.FindAction("RotateLeft", throwIfNotFound: true);
         m_Blocks_RotateRight = m_Blocks.FindAction("RotateRight", throwIfNotFound: true);
-        m_Blocks_SoftDropHold = m_Blocks.FindAction("SoftDropHold", throwIfNotFound: true);
         m_Blocks_HardDrop = m_Blocks.FindAction("HardDrop", throwIfNotFound: true);
         m_Blocks_HoldPiece = m_Blocks.FindAction("HoldPiece", throwIfNotFound: true);
         m_Blocks_SoftDropUp = m_Blocks.FindAction("SoftDropUp", throwIfNotFound: true);
+        m_Blocks_SoftDropHold = m_Blocks.FindAction("SoftDropHold", throwIfNotFound: true);
         m_Blocks_SoftDropDown = m_Blocks.FindAction("SoftDropDown", throwIfNotFound: true);
         // Ui
         m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
-        m_Ui_TryAgain = m_Ui.FindAction("TryAgain", throwIfNotFound: true);
+        m_Ui_Pause = m_Ui.FindAction("Pause", throwIfNotFound: true);
+        m_Ui_UnPause = m_Ui.FindAction("UnPause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -325,10 +346,10 @@ public partial class @Input : IInputActionCollection2, IDisposable
     private readonly InputAction m_Blocks_Left;
     private readonly InputAction m_Blocks_RotateLeft;
     private readonly InputAction m_Blocks_RotateRight;
-    private readonly InputAction m_Blocks_SoftDropHold;
     private readonly InputAction m_Blocks_HardDrop;
     private readonly InputAction m_Blocks_HoldPiece;
     private readonly InputAction m_Blocks_SoftDropUp;
+    private readonly InputAction m_Blocks_SoftDropHold;
     private readonly InputAction m_Blocks_SoftDropDown;
     public struct BlocksActions
     {
@@ -338,10 +359,10 @@ public partial class @Input : IInputActionCollection2, IDisposable
         public InputAction @Left => m_Wrapper.m_Blocks_Left;
         public InputAction @RotateLeft => m_Wrapper.m_Blocks_RotateLeft;
         public InputAction @RotateRight => m_Wrapper.m_Blocks_RotateRight;
-        public InputAction @SoftDropHold => m_Wrapper.m_Blocks_SoftDropHold;
         public InputAction @HardDrop => m_Wrapper.m_Blocks_HardDrop;
         public InputAction @HoldPiece => m_Wrapper.m_Blocks_HoldPiece;
         public InputAction @SoftDropUp => m_Wrapper.m_Blocks_SoftDropUp;
+        public InputAction @SoftDropHold => m_Wrapper.m_Blocks_SoftDropHold;
         public InputAction @SoftDropDown => m_Wrapper.m_Blocks_SoftDropDown;
         public InputActionMap Get() { return m_Wrapper.m_Blocks; }
         public void Enable() { Get().Enable(); }
@@ -364,9 +385,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @RotateRight.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
                 @RotateRight.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
                 @RotateRight.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnRotateRight;
-                @SoftDropHold.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
-                @SoftDropHold.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
-                @SoftDropHold.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
                 @HardDrop.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
                 @HardDrop.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
                 @HardDrop.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnHardDrop;
@@ -376,6 +394,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @SoftDropUp.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
                 @SoftDropUp.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
                 @SoftDropUp.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropUp;
+                @SoftDropHold.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
+                @SoftDropHold.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
+                @SoftDropHold.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropHold;
                 @SoftDropDown.started -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
                 @SoftDropDown.performed -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
                 @SoftDropDown.canceled -= m_Wrapper.m_BlocksActionsCallbackInterface.OnSoftDropDown;
@@ -395,9 +416,6 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @RotateRight.started += instance.OnRotateRight;
                 @RotateRight.performed += instance.OnRotateRight;
                 @RotateRight.canceled += instance.OnRotateRight;
-                @SoftDropHold.started += instance.OnSoftDropHold;
-                @SoftDropHold.performed += instance.OnSoftDropHold;
-                @SoftDropHold.canceled += instance.OnSoftDropHold;
                 @HardDrop.started += instance.OnHardDrop;
                 @HardDrop.performed += instance.OnHardDrop;
                 @HardDrop.canceled += instance.OnHardDrop;
@@ -407,6 +425,9 @@ public partial class @Input : IInputActionCollection2, IDisposable
                 @SoftDropUp.started += instance.OnSoftDropUp;
                 @SoftDropUp.performed += instance.OnSoftDropUp;
                 @SoftDropUp.canceled += instance.OnSoftDropUp;
+                @SoftDropHold.started += instance.OnSoftDropHold;
+                @SoftDropHold.performed += instance.OnSoftDropHold;
+                @SoftDropHold.canceled += instance.OnSoftDropHold;
                 @SoftDropDown.started += instance.OnSoftDropDown;
                 @SoftDropDown.performed += instance.OnSoftDropDown;
                 @SoftDropDown.canceled += instance.OnSoftDropDown;
@@ -418,12 +439,14 @@ public partial class @Input : IInputActionCollection2, IDisposable
     // Ui
     private readonly InputActionMap m_Ui;
     private IUiActions m_UiActionsCallbackInterface;
-    private readonly InputAction m_Ui_TryAgain;
+    private readonly InputAction m_Ui_Pause;
+    private readonly InputAction m_Ui_UnPause;
     public struct UiActions
     {
         private @Input m_Wrapper;
         public UiActions(@Input wrapper) { m_Wrapper = wrapper; }
-        public InputAction @TryAgain => m_Wrapper.m_Ui_TryAgain;
+        public InputAction @Pause => m_Wrapper.m_Ui_Pause;
+        public InputAction @UnPause => m_Wrapper.m_Ui_UnPause;
         public InputActionMap Get() { return m_Wrapper.m_Ui; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -433,16 +456,22 @@ public partial class @Input : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_UiActionsCallbackInterface != null)
             {
-                @TryAgain.started -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
-                @TryAgain.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
-                @TryAgain.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnTryAgain;
+                @Pause.started -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnPause;
+                @UnPause.started -= m_Wrapper.m_UiActionsCallbackInterface.OnUnPause;
+                @UnPause.performed -= m_Wrapper.m_UiActionsCallbackInterface.OnUnPause;
+                @UnPause.canceled -= m_Wrapper.m_UiActionsCallbackInterface.OnUnPause;
             }
             m_Wrapper.m_UiActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @TryAgain.started += instance.OnTryAgain;
-                @TryAgain.performed += instance.OnTryAgain;
-                @TryAgain.canceled += instance.OnTryAgain;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @UnPause.started += instance.OnUnPause;
+                @UnPause.performed += instance.OnUnPause;
+                @UnPause.canceled += instance.OnUnPause;
             }
         }
     }
@@ -462,14 +491,15 @@ public partial class @Input : IInputActionCollection2, IDisposable
         void OnLeft(InputAction.CallbackContext context);
         void OnRotateLeft(InputAction.CallbackContext context);
         void OnRotateRight(InputAction.CallbackContext context);
-        void OnSoftDropHold(InputAction.CallbackContext context);
         void OnHardDrop(InputAction.CallbackContext context);
         void OnHoldPiece(InputAction.CallbackContext context);
         void OnSoftDropUp(InputAction.CallbackContext context);
+        void OnSoftDropHold(InputAction.CallbackContext context);
         void OnSoftDropDown(InputAction.CallbackContext context);
     }
     public interface IUiActions
     {
-        void OnTryAgain(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnUnPause(InputAction.CallbackContext context);
     }
 }

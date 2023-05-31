@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class EventManager
+public class EventManager : Singelton<EventManager>
 {
 	//Initialization events
-	public static readonly Event OnGameManagerDependeciesLoaded = new();
+	public readonly Event OnGameManagerDependeciesLoaded = new();
 
 	//Update events
-	public static readonly Event OnBlockFloorCollision = new();
-	public static readonly Event OnDisableAllBlocks = new();
-	public static readonly Event OnGameOver = new();
-	public static readonly Event OnGameRestart = new();
-	public static readonly Event<List<GameObject>> OnHeldedBlocksChange = new();
+	public readonly Event OnBlockFloorCollision = new();
+	public readonly Event OnDisableAllBlocks = new();
+	public readonly Event OnGameOver = new();
+	public readonly Event OnGameRestart = new();
+	public readonly Event<GameObject> OnHeldedBlocksChange = new();
+	public readonly Event<uint> OnScoreChange = new();
+	public readonly Event OnLineStartFalling = new();
+	public readonly Event OnLineFallen = new();
+	public readonly Event<List<GameObject>> OnNextBlocksChange = new();
+	public readonly Event OnPauseGame = new();
+	public readonly Event OnLost = new();
 }

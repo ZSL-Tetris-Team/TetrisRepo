@@ -14,11 +14,18 @@ public class ConstSettingsManager : ScriptableObject
     [SerializeField][Range(0.1f, 1)] private float _softDropFallTime = 0.5f;
     [SerializeField] private float _horizontalBlockSpeed = 6;
 	[SerializeField] private float _hardDropBlockSpeed = 6;
-    [SerializeField] private float _verticalBlockFallSpeed = 10;
+    [SerializeField] private float _verticalBlockSpeed = 10;
 
     [Header("Score")]
     [SerializeField] private uint _fullLineValue = 100;
     [SerializeField] private uint _singleCubeValue = 10;
+
+    [Header("Materials")]
+    [SerializeField] private Material _transparentMaterial;
+
+    [Header("GhostBlock")]
+    [SerializeField][Range(0, 1)] private float ghostWhitness = 0.4f;
+    [SerializeField][Range(0, 1)] private float ghostTransparency = 0.4f;
 
 	public float FallTime
     {
@@ -48,10 +55,14 @@ public class ConstSettingsManager : ScriptableObject
         get => _hardDropBlockSpeed; 
         private set => _hardDropBlockSpeed = value; 
     }
-	public float VerticalBlockFallSpeed { 
-        get => _verticalBlockFallSpeed; 
-        set => _verticalBlockFallSpeed = value; 
+	public float VerticalBlockSpeed
+	{ 
+        get => _verticalBlockSpeed; 
+        set => _verticalBlockSpeed = value; 
     }
 	public uint FullLineValue { get => _fullLineValue; private set => _fullLineValue = value; }
 	public uint SingleCubeValue { get => _singleCubeValue; private set => _singleCubeValue = value; }
+	public Material TransparentMaterial { get => _transparentMaterial; private set => _transparentMaterial = value; }
+	public float GhostWhitness { get => ghostWhitness; private set => ghostWhitness = value; }
+	public float GhostTransparency { get => ghostTransparency; private set => ghostTransparency = value; }
 }

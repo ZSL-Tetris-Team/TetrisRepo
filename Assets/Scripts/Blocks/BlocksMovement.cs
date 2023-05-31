@@ -27,8 +27,8 @@ public class BlocksMovement : MonoBehaviour
 		csm = GameManager.Instance.ConstSettingsManager;
 		horizontalSpeed = csm.HorizontalBlockSpeed;
 		hardDropSpeed = csm.HardDropBlockSpeed;
-		EventManager.OnBlockFloorCollision.AddListener(Disable);
-		EventManager.OnDisableAllBlocks.AddListener(Disable);
+		EventManager.Instance.OnBlockFloorCollision.AddListener(Disable);
+		EventManager.Instance.OnDisableAllBlocks.AddListener(Disable);
 		//EventManager.OnCubeFall.AddListener(OnCubeFall);
 	}
 	private void Start()
@@ -51,8 +51,8 @@ public class BlocksMovement : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
-		EventManager.OnBlockFloorCollision.RemoveListener(Disable);
-		EventManager.OnDisableAllBlocks.RemoveListener(Disable);
+		EventManager.Instance.OnBlockFloorCollision.RemoveListener(Disable);
+		EventManager.Instance.OnDisableAllBlocks.RemoveListener(Disable);
 		timer.ResetTimer();
 	}
 	private void Disable()
@@ -106,6 +106,8 @@ public class BlocksMovement : MonoBehaviour
 	{
 		horizontalDistanceToTravelLeft = 0;
 		horizontalDistanceToTravelRight = 0;
+
+		transform.position = new Vector3((float)Math.Round(transform.position.x), transform.position.y, transform.position.z);
 	}
 	private void HorizontalMovement()
 	{
@@ -162,14 +164,14 @@ public class BlocksMovement : MonoBehaviour
 		{
 			//hardDropDistanceToTravel += Mathf.Abs(Collision.GetClosestBottomPoint(gameObject).y - transform.position.y) - 1;
 			transform.position = Collision.GetClosestBottomPoint(gameObject);
-			EventManager.OnBlockFloorCollision.Invoke();
+			EventManager.Instance.OnBlockFloorCollision.Invoke();
 		}
 	}
 	private void VerticalMovementCollision()
 	{
 		if (Collision.IsNextToFloor(gameObject.name) && verticalDistanceToTravel <= 0 && horizontalDistanceToTravelRight <= 0 && horizontalDistanceToTravelLeft <= 0)
 		{
-			EventManager.OnBlockFloorCollision.Invoke();
+			EventManager.Instance.OnBlockFloorCollision.Invoke();
 		}
 	}
 	private void VerticalMovement()
