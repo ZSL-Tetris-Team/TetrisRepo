@@ -9,6 +9,7 @@ using UnityEngine.TestTools;
 public class FullLineHandler : MonoBehaviour
 {
 	private static readonly List<FullLineHandler> lineHandlerScripts = new();
+	private static bool areCubesToDestroy;
 
 	private GameManager gameManager;
 	private ConstSettingsManager csm;
@@ -112,11 +113,27 @@ public class FullLineHandler : MonoBehaviour
 		{
 			if (IsLineFull(height))
 			{
+				areCubesToDestroy = true;
+
 				GameManager.Instance.AddScore(GameManager.Instance.ConstSettingsManager.FullLineValue);
 				EventManager.Instance.OnLineStartFalling.Invoke();
 
-				DestroyCubesAtHeight(height);
-				MoveCubesDown(height);
+				EventManager.Instance.DestroyLineAnimationEnded.AddListener(() =>
+				{
+					if (areCubesToDestroy)
+					{
+						DestroyCubesAtHeight(height);
+						MoveCubesDown(height);
+					}
+
+					EventManager.Instance.DestroyLineAnimationEnded.RemoveAllListeners();
+					areCubesToDestroy = false;
+				});
+
+				foreach(var lineHandler in lineHandlerScripts.Where(lineHandler => lineHandler.enabled && lineHandler.Height == height).ToList())
+				{
+					lineHandler.StartCoroutine(Animation.BreakLineAnimation(lineHandler.GetComponent<Renderer>(), lineHandler.transform.GetChild(1).GetComponent<ParticleSystem>()));
+				}
 			}
 		}
 	}

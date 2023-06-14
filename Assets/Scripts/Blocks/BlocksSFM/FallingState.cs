@@ -119,20 +119,32 @@ public class FallingState : BlockState
 		if (inputManager.GetRotateRight())
 		{
 			trans.Rotate(new Vector3(0, 0, -90));
+			RotateParticles(90);
 
 			if (WallClipping.IsWallClipping(gameObject.name))
 			{
 				trans.Rotate(new Vector3(0, 0, 90));
+				RotateParticles(-90);
 			}
 		}
 		if (inputManager.GetRotateLeft())
 		{
 			trans.Rotate(new Vector3(0, 0, 90));
+			RotateParticles(-90);
 
 			if (WallClipping.IsWallClipping(gameObject.name))
 			{
 				trans.Rotate(new Vector3(0, 0, -90));
+				RotateParticles(90);
 			}
+		}
+	}
+	private void RotateParticles(float degrees)
+	{
+		foreach(Transform cube in FSMBase.transform)
+		{
+			Transform burstParticle = cube.GetChild(0);
+			burstParticle.RotateAround(cube.position, Vector3.forward, degrees);
 		}
 	}
 	private void HandleSoftDrop()

@@ -23,7 +23,12 @@ public class GhostState : BlockState
 	}
 	private void AssignTransparentMaterial()
 	{
-		foreach (var renderer in FSMBase.GetComponentsInChildren<Renderer>())
+		List<Renderer> renderers = new();
+		foreach (Transform cube in FSMBase.transform)
+		{
+			renderers.Add(cube.GetComponent<Renderer>());
+		}
+		foreach (var renderer in renderers)
 		{
 			List<Material> newMatirials = new();
 
