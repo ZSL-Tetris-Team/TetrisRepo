@@ -113,27 +113,15 @@ public class FullLineHandler : MonoBehaviour
 		{
 			if (IsLineFull(height))
 			{
-				areCubesToDestroy = true;
-
 				GameManager.Instance.AddScore(GameManager.Instance.ConstSettingsManager.FullLineValue);
 				EventManager.Instance.OnLineStartFalling.Invoke();
 
-				EventManager.Instance.DestroyLineAnimationEnded.AddListener(() =>
+				GameObject[] cubes = lineHandlerScripts.Where(lineHandler => lineHandler.enabled && lineHandler.Height == height).Select(lineHandler => lineHandler.gameObject).ToArray();
+				GameManager.Instance.StartCoroutine(Animation.BreakLineAnimation(cubes, () =>
 				{
-					if (areCubesToDestroy)
-					{
-						DestroyCubesAtHeight(height);
-						MoveCubesDown(height);
-					}
-
-					EventManager.Instance.DestroyLineAnimationEnded.RemoveAllListeners();
-					areCubesToDestroy = false;
-				});
-
-				foreach(var lineHandler in lineHandlerScripts.Where(lineHandler => lineHandler.enabled && lineHandler.Height == height).ToList())
-				{
-					lineHandler.StartCoroutine(Animation.BreakLineAnimation(lineHandler.GetComponent<Renderer>(), lineHandler.transform.GetChild(1).GetComponent<ParticleSystem>()));
-				}
+					DestroyCubesAtHeight(height);
+					MoveCubesDown(height);
+				}));
 			}
 		}
 	}

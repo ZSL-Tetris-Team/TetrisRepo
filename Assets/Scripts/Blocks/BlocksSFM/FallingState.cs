@@ -166,8 +166,31 @@ public class FallingState : BlockState
 		if (inputManager.GetHardDrop())
 		{
 			trans.position = Collision.GetClosestBottomPoint(gameObject);
+			HandleParticles();
 			EventManager.Instance.OnBlockFloorCollision.Invoke();
 		}
+	}
+	private void HandleParticles()
+	{
+		foreach(GameObject cube in Collision.GetScriptsByName(gameObject.name))
+		{
+			if (cube.GetComponent<Collision>().FloorCheck())
+			{
+				SetParticlesColor(cube);
+				PlayParticles(cube);
+			}
+		}
+	}
+	private void SetParticlesColor(GameObject cube)
+	{
+		Renderer renderer = cube.GetComponent<Renderer>();
+		ParticleSystem ps = cube.transform.GetChild(0).GetComponent<ParticleSystem>();
+		var main = ps.main;
+		main.startColor = new ParticleSystem.MinMaxGradient(renderer.materials[1].GetColor("_EmissionColor"));
+	}
+	private void PlayParticles(GameObject cube)
+	{
+		cube.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
 	}
 	private void VerticalMovementCollision()
 	{

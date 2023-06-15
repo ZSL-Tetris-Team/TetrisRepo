@@ -19,5 +19,4 @@ public class EventManager : Singelton<EventManager>
 	public readonly Event<List<GameObject>> OnNextBlocksChange = new();
 	public readonly Event OnPauseGame = new();
 	public readonly Event OnLost = new();
-	public readonly Event DestroyLineAnimationEnded = new();
 }

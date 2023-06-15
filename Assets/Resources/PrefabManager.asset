@@ -21,3 +21,5 @@ MonoBehaviour:
   - {fileID: 2549469796775134207, guid: 0be7831412d5cbd4cbf3fe30f6b9a3eb, type: 3}
   - {fileID: 5213890283092131741, guid: 1d7bf4a9bc85f354ba6998a5aac85a11, type: 3}
   - {fileID: 5939795890951714240, guid: 303acf0f43687bc469e2a3b70c79116d, type: 3}
+  _burstCubeParticle: {fileID: 322445075349509379, guid: 755575adf8eeb4a428afe475b5f4bfd5, type: 3}
+  _blowCubeParticle: {fileID: 5816598538594549691, guid: a4e017751249b984a870e17292e5ed76, type: 3}

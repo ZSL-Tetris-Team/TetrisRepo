@@ -1,28 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+using UnityEngine.ProBuilder.Shapes;
 
 public static class Animation
 {
-	public static IEnumerator BreakLineAnimation(Renderer renderer, ParticleSystem ps)
+	public static IEnumerator BreakLineAnimation(GameObject[] cubes, Action doAfter)
 	{
 		for (float i = 1; i <= 1.4f; i += 0.025f)
 		{
-			Material material = renderer.materials[1];
-			Color emissionColor = material.GetColor("_EmissionColor");
-			float intensity = i;
+			foreach (GameObject cube in cubes)
+			{
+				Renderer renderer = cube.GetComponent<Renderer>();
+				Material material = renderer.materials[1];
+				Color emissionColor = material.GetColor("_EmissionColor");
+				float intensity = i;
 
-			material.SetColor("_EmissionColor", new Color(emissionColor.r, emissionColor.g, emissionColor.b) * intensity);
+				material.SetColor("_EmissionColor", new Color(emissionColor.r, emissionColor.g, emissionColor.b) * intensity);
+			}
+
 			yield return new WaitForSeconds(0.04f);
 		}
 
-		CameraShake.Instance.ShakeCamera(20, 2, 0.3f);
-		ps.Play();
+		foreach (GameObject cube in cubes)
+		{
+			CameraShake.Instance.ShakeCamera(33, 2, 0.3f);
 
-		yield return new WaitForSeconds(1);
-		EventManager.Instance.DestroyLineAnimationEnded.Invoke();
+			Material mat = cube.GetComponent<Renderer>().materials[1];
+			Particles.Instance.PlayParticleOnce(Particles.ParticlesToUse.BlowCubeParticle, cube.transform.position, cube.transform.rotation, new Vector3(1, 1, 1), mat.GetColor("_EmissionColor"), 7);
+		}
+
+		doAfter();
 	}
 }

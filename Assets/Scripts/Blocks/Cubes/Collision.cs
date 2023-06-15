@@ -140,7 +140,7 @@ public class Collision : MonoBehaviour
 		}
 		return false;
 	}
-	private bool FloorCheck()
+	public bool FloorCheck()
 	{
 		foreach (Ray ray in RaysToCast)
 		{
@@ -154,6 +154,10 @@ public class Collision : MonoBehaviour
 			}
 		}
 		return false;
+	}
+	public static GameObject[] GetScriptsByName(string parentName)
+	{
+		return collisionScripts[parentName].Select(collisionScript => collisionScript.gameObject).ToArray();
 	}
 	private RaycastHit GetBottomPoint()
 	{

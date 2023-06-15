@@ -19,10 +19,10 @@ public class WaitingState : BlockState
 		b.AudioSource.clip = b.fallenSound;
 		b.AudioSource.Play();
 
-		SetParticlesColor();
-		PlayParticles();
+		//SetParticlesColor();
+		//PlayParticles();
 
-		CameraShake.Instance.ShakeCamera(4, 2, 0.3f);
+		CameraShake.Instance.ShakeCamera(5, 2, 0.3f);
 		Debug.Log("waiting");
 	}
 	private void DisableBoxColliders()
@@ -37,26 +37,6 @@ public class WaitingState : BlockState
 		foreach (var lineHandler in FSMBase.GetComponentsInChildren<FullLineHandler>())
 		{
 			lineHandler.PermDisabled = false;
-		}
-	}
-	private void SetParticlesColor()
-	{
-		foreach (Transform cube in FSMBase.transform)
-		{
-			Renderer renderer = cube.GetComponent<Renderer>();
-			ParticleSystem[] pss = cube.GetComponentsInChildren<ParticleSystem>();
-			foreach(ParticleSystem ps in pss)
-			{
-				var main = ps.main;
-				main.startColor = new ParticleSystem.MinMaxGradient(renderer.materials[1].GetColor("_EmissionColor"));
-			}
-		}
-	}
-	private void PlayParticles()
-	{
-		foreach(Transform cube in FSMBase.transform)
-		{
-			cube.GetComponentInChildren<ParticleSystem>().Play();
 		}
 	}
 }
