@@ -9,6 +9,7 @@ public static class Animation
 {
 	public static IEnumerator BreakLineAnimation(GameObject[] cubes, Action doAfter)
 	{
+		AudioEffectPlayer.Instance.PlayAudioEffect(GameManager.Instance.SfxManager.ChargeSound);
 		for (float i = 1; i <= 1.4f; i += 0.025f)
 		{
 			foreach (GameObject cube in cubes)
@@ -23,6 +24,8 @@ public static class Animation
 
 			yield return new WaitForSeconds(0.04f);
 		}
+
+		AudioEffectPlayer.Instance.PlayAudioEffect(GameManager.Instance.SfxManager.LineBlowSound);
 
 		foreach (GameObject cube in cubes)
 		{

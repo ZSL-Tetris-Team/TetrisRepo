@@ -40,7 +40,8 @@ public class GameManager : Singelton<GameManager>
 	public PrefabManager PrefabManager { get; private set; }
 	public ConstSettingsManager ConstSettingsManager { get; private set; }
 	public LocalDataManager LocalDataManager { get; private set; }
-	public States State { get => state; private set => state = value; }
+    public SfxManager SfxManager { get; private set; }
+    public States State { get => state; private set => state = value; }
 
 	private void Awake()
 	{
@@ -49,6 +50,7 @@ public class GameManager : Singelton<GameManager>
 
 		PrefabManager = Resources.Load<PrefabManager>("PrefabManager");
 		ConstSettingsManager = Resources.Load<ConstSettingsManager>("ConstSettingsManager");
+		SfxManager = Resources.Load<SfxManager>("SfxManager");
 
 		EventManager.Instance.OnLineStartFalling.AddListener(() => { 
 
@@ -211,8 +213,10 @@ public class GameManager : Singelton<GameManager>
 		if (InputManager.Instance.GetHoldPiece())
 		{
 			var FSM = blocks.Last().GetComponent<BlockFSMBase>();
-			FSM.AudioSource.clip = FSM.holdSound;
-			FSM.AudioSource.Play();
+			Debug.Log("Hold");
+
+			AudioEffectPlayer.Instance.PlayAudioEffect(FSM.holdSound);
+
 			if (hasBlockBeenHolded) return;
 
 			hasBlockBeenHolded = true;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boardWidth: 10
   _boardHeight: 20
-  _fallTime: 1
+  _fallTime: 0.75
   _softDropFallTime: 0.1
   _horizontalBlockSpeed: 0.15
   _hardDropBlockSpeed: 30
